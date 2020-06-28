@@ -1,6 +1,5 @@
 package io.github.bsfranca2.athena.adapter
 
-import io.github.bsfranca2.athena.dto.RoleDto
 import io.github.bsfranca2.athena.dto.UserDto
 import io.github.bsfranca2.athena.entity.User
 

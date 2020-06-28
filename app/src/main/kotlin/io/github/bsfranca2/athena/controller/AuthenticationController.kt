@@ -4,10 +4,7 @@ import io.github.bsfranca2.athena.dto.AuthenticationDto
 import io.github.bsfranca2.athena.dto.LoginResponseDto
 import io.github.bsfranca2.athena.dto.UserDto
 import io.github.bsfranca2.athena.service.AuthenticationService
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController

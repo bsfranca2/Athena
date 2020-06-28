@@ -1,17 +1,17 @@
 package io.github.bsfranca2.athena.controller
 
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import io.github.bsfranca2.athena.adapter.UserAdapter
+import io.github.bsfranca2.athena.service.UserService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/check")
-class CheckController {
+class CheckController(val userService: UserService) {
 
     @GetMapping
     fun check()
-            = ResponseEntity("", HttpStatus.OK)
+            = UserAdapter.toDto(userService.loggedUser)
 
 }
