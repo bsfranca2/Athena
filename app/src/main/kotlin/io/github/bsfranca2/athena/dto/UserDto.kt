@@ -4,5 +4,5 @@ data class UserDto(
         val email: String,
         val password: String,
         val active: Boolean,
-        val roles: MutableMap<String, List<String>>
+        val roles: List<String>
 )
