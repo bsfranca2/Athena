@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class CheckController {
 
     @GetMapping
-    fun check(): ResponseEntity<String> {
-        return ResponseEntity("", HttpStatus.OK)
-    }
+    fun check()
+            = ResponseEntity("", HttpStatus.OK)
 
 }

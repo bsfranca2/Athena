@@ -15,13 +15,11 @@ import javax.validation.Valid
 class AuthenticationController(val authenticationService: AuthenticationService) {
 
     @PostMapping("/register")
-    fun register(@Valid @RequestBody authenticationDto: AuthenticationDto): UserDto {
-        return authenticationService.registerNewUserAccount(authenticationDto)
-    }
+    fun register(@Valid @RequestBody authenticationDto: AuthenticationDto)
+            = authenticationService.registerNewUserAccount(authenticationDto)
 
     @PostMapping("/login")
-    fun login(@Valid @RequestBody authenticationDto: AuthenticationDto): LoginResponseDto {
-        return authenticationService.login(authenticationDto)
-    }
+    fun login(@Valid @RequestBody authenticationDto: AuthenticationDto)
+            = authenticationService.login(authenticationDto)
 
 }
