@@ -11,10 +11,13 @@ data class Task(
         @Column(nullable = false)
         val title: String = "",
         val description: String = "",
+        @Column(nullable = false)
+        val status: String = "",
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "user_id", nullable = false)
         val createdBy: User
 ) {
     fun setTitle(newTitle: String) = this.copy(title = newTitle)
     fun setDescription(newDescription: String) = this.copy(description = newDescription)
+    fun setStatus(newStatus: String) = this.copy(status = newStatus)
 }

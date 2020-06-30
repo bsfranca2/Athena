@@ -13,7 +13,7 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
 
     fun createTask(taskDto: TaskDto): TaskDto {
         val user = userService.loggedUser
-        val task = Task(-1, taskDto.title, taskDto.description, user)
+        val task = Task(-1, taskDto.title, taskDto.description, taskDto.status, user)
         val taskSaved = taskRepository.save(task)
         return TaskAdapter.toDto(taskSaved)
     }
@@ -26,7 +26,7 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
 
     fun updateTask(id: Int, taskUpdate: TaskDto): TaskDto {
         val task = taskRepository.findByIdOrNull(id) ?: throw TaskNotFoundException(id)
-        val taskUpdated = task.setTitle(taskUpdate.title).setDescription(taskUpdate.description)
+        val taskUpdated = task.setTitle(taskUpdate.title).setDescription(taskUpdate.description).setStatus(taskUpdate.status)
         val taskSaved = taskRepository.save(taskUpdated)
         return TaskAdapter.toDto(taskSaved)
     }

@@ -10,5 +10,7 @@ data class TaskDto(
         @field:NotBlank
         val title: String = "",
         val description: String = "",
+        @field:NotBlank
+        val status: String = "",
         val createdBy: Int = -1
 )
