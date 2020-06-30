@@ -22,4 +22,6 @@ data class User(
 ) {
         @OneToMany(mappedBy = "createdBy", cascade = [CascadeType.DETACH], orphanRemoval = true)
         val myTasks: MutableList<Task> = mutableListOf()
+        @ManyToMany(mappedBy = "assignedTo", cascade = [CascadeType.DETACH])
+        val tasksAssingedToMe: MutableList<Task> = mutableListOf()
 }

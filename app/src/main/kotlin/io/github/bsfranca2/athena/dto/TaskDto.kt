@@ -12,5 +12,6 @@ data class TaskDto(
         val description: String = "",
         @field:NotBlank
         val status: String = "",
+        val assignedTo: MutableList<Int> = mutableListOf(),
         val createdBy: Int = -1
 )

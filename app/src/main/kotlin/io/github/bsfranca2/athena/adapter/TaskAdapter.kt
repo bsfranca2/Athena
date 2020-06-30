@@ -6,7 +6,8 @@ import io.github.bsfranca2.athena.entity.Task
 object TaskAdapter {
 
     fun toDto(task: Task): TaskDto {
-        return TaskDto(task.id, task.title, task.description, task.status, task.createdBy.id)
+        val assignedTo = task.assignedTo.map { it.id }.toMutableList()
+        return TaskDto(task.id, task.title, task.description, task.status, assignedTo, task.createdBy.id)
     }
 
 }

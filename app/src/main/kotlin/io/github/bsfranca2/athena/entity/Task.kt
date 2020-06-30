@@ -13,6 +13,11 @@ data class Task(
         val description: String = "",
         @Column(nullable = false)
         val status: String = "",
+        @ManyToMany(cascade = [CascadeType.DETACH])
+        @JoinTable(name = "ath_task_assigned_to",
+                joinColumns = [JoinColumn(name = "task_id", referencedColumnName = "id")],
+                inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
+        val assignedTo: MutableList<User> = mutableListOf(),
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "user_id", nullable = false)
         val createdBy: User
