@@ -5,6 +5,9 @@ import javax.persistence.*
 @Entity
 @Table(name = "ath_user")
 data class User(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int = -1,
         @Column(unique = true, nullable = false)
         val email: String = "",
         @Column(nullable = false)
@@ -16,7 +19,7 @@ data class User(
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")])
         val roles: MutableList<Role> = mutableListOf()
-): BaseEntity() {
+) {
         @OneToMany(mappedBy = "createdBy", cascade = [CascadeType.DETACH], orphanRemoval = true)
         val myTasks: MutableList<Task> = mutableListOf()
 }

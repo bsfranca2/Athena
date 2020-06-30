@@ -72,7 +72,7 @@ class SetupDataLoader : ApplicationListener<ContextRefreshedEvent> {
     fun createUserIfNotFound(email: String, password: String, roles: MutableList<Role>): User {
         var user = userRepository.findByEmail(email)
         if (user == null) {
-            user = User(email, password, true, roles)
+            user = User(-1, email, password, true, roles)
             user = userRepository.save(user)
         }
         return user

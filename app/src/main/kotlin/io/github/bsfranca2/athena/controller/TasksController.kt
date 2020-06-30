@@ -18,4 +18,8 @@ class TasksController(val taskService: TaskService) {
     fun listTasks()
             = taskService.listTasks()
 
+    @PutMapping("/{id}")
+    fun updateTask(@PathVariable id: Int, @Valid @RequestBody taskUpdate: TaskDto)
+            = taskService.updateTask(id, taskUpdate)
+
 }

@@ -28,7 +28,7 @@ class AuthenticationService(
         val active = true
         val userRole = roleRepository.findByName("ROLE_USER") ?: throw Throwable("Não foi encontrado a função de usuário")
         val roles = mutableListOf(userRole)
-        val user = User(email, passwordEncoder.encode(password), active, roles)
+        val user = User(-1, email, passwordEncoder.encode(password), active, roles)
         return UserAdapter.toDto(userRepository.save(user))
     }
 

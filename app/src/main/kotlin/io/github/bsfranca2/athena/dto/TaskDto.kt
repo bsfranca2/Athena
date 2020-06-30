@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 data class TaskDto(
+        val id: Int = -1,
         @field:NotBlank
         val title: String = "",
         val description: String = "",
