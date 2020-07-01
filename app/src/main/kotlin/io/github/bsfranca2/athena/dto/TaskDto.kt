@@ -1,9 +1,6 @@
 package io.github.bsfranca2.athena.dto
 
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
+import javax.validation.constraints.*
 
 data class TaskDto(
         val id: Int = -1,
@@ -13,5 +10,7 @@ data class TaskDto(
         @field:NotBlank
         val status: String = "",
         val assignedTo: MutableList<Int> = mutableListOf(),
+        @field:Min(0)
+        val estimatedTime: Int = 0,
         val createdBy: Int = -1
 )

@@ -18,6 +18,7 @@ data class Task(
                 joinColumns = [JoinColumn(name = "task_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
         val assignedTo: MutableList<User> = mutableListOf(),
+        val estimatedTime: Int = 0,
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "user_id", nullable = false)
         val createdBy: User
@@ -25,4 +26,5 @@ data class Task(
     fun setTitle(newTitle: String) = this.copy(title = newTitle)
     fun setDescription(newDescription: String) = this.copy(description = newDescription)
     fun setStatus(newStatus: String) = this.copy(status = newStatus)
+    fun setEstimatedTime(newEstimatedTime: Int) = this.copy(estimatedTime = newEstimatedTime)
 }

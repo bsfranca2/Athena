@@ -3,6 +3,7 @@ package io.github.bsfranca2.athena.service
 import io.github.bsfranca2.athena.adapter.TaskAdapter
 import io.github.bsfranca2.athena.dto.TaskDto
 import io.github.bsfranca2.athena.entity.Task
+import io.github.bsfranca2.athena.entity.User
 import io.github.bsfranca2.athena.exception.TaskNotFoundException
 import io.github.bsfranca2.athena.repository.TaskRepository
 import io.github.bsfranca2.athena.repository.UserRepository
@@ -14,7 +15,9 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
 
     fun createTask(taskDto: TaskDto): TaskDto {
         val user = userService.loggedUser
-        val task = Task(-1, taskDto.title, taskDto.description, taskDto.status, mutableListOf(), user)
+        val (_, title, description, status, assignedToUsersId, estimatedTime) = taskDto
+        val assignedTo = userRepository.findAllById(assignedToUsersId).toMutableList()
+        val task = Task(-1, title, description, status, assignedTo, estimatedTime, user)
         val taskSaved = taskRepository.save(task)
         return TaskAdapter.toDto(taskSaved)
     }
@@ -27,7 +30,10 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
 
     fun updateTask(id: Int, taskUpdate: TaskDto): TaskDto {
         val task = taskRepository.findByIdOrNull(id) ?: throw TaskNotFoundException(id)
-        val taskUpdated = task.setTitle(taskUpdate.title).setDescription(taskUpdate.description).setStatus(taskUpdate.status)
+        val taskUpdated = task.setTitle(taskUpdate.title)
+                .setDescription(taskUpdate.description)
+                .setStatus(taskUpdate.status)
+                .setEstimatedTime(taskUpdate.estimatedTime)
         val assignedToUsers = userRepository.findAllById(taskUpdate.assignedTo)
         taskUpdated.assignedTo.clear()
         taskUpdated.assignedTo.addAll(assignedToUsers)
