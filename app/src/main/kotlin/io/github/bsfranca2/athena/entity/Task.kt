@@ -22,7 +22,7 @@ data class Task(
         val assignedTo: MutableList<User> = mutableListOf(),
         val estimatedTime: Int = 0,
         @ManyToOne(cascade = [CascadeType.DETACH])
-        @JoinColumn(name = "user_id", nullable = false)
+        @JoinColumn(name = "created_by", nullable = false)
         val createdBy: User
 ) {
     fun setTitle(newTitle: String) = this.copy(title = newTitle)
