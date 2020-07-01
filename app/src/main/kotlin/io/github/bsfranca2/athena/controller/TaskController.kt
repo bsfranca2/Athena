@@ -4,6 +4,7 @@ import io.github.bsfranca2.athena.dto.TaskDto
 import io.github.bsfranca2.athena.dto.TimeEntryDto
 import io.github.bsfranca2.athena.entity.Task
 import io.github.bsfranca2.athena.service.TaskService
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -11,7 +12,7 @@ import javax.validation.Valid
 @RequestMapping("/api/tasks")
 class TaskController(val taskService: TaskService) {
 
-    @PostMapping
+    @PostMapping @ResponseStatus(HttpStatus.CREATED)
     fun createTask(@Valid @RequestBody taskDto: TaskDto)
             = taskService.createTask(taskDto)
 
@@ -23,7 +24,11 @@ class TaskController(val taskService: TaskService) {
     fun updateTask(@PathVariable id: Int, @Valid @RequestBody taskUpdate: TaskDto)
             = taskService.updateTask(id, taskUpdate)
 
-    @PostMapping("/{id}/time-entries")
+    @DeleteMapping("/{id}")
+    fun deleteTask(@PathVariable id: Int)
+            = taskService.deleteTask(id)
+
+    @PostMapping("/{id}/time-entries") @ResponseStatus(HttpStatus.CREATED)
     fun addTimeEntry(@PathVariable id: Int, @RequestBody timeEntryDto: TimeEntryDto)
             = taskService.addTimeEntry(id, timeEntryDto)
 

@@ -47,6 +47,11 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
         return TaskAdapter.toDto(taskSaved)
     }
 
+    fun deleteTask(id: Int) {
+        val task  = taskRepository.findByIdOrNull(id) ?: throw TaskNotFoundException(id)
+        return taskRepository.delete(task)
+    }
+
     fun addTimeEntry(taskId: Int, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
         val createdBy = userService.loggedUser
         val (_, _, description, registerAt, startAt, endAt, _, createdAt) = timeEntryDto
