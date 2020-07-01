@@ -1,6 +1,5 @@
 package io.github.bsfranca2.athena.entity
 
-import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -10,27 +9,21 @@ data class Task(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int = -1,
         @Column(nullable = false)
-        val title: String = "",
-        val description: String = "",
+        var title: String = "",
+        var description: String = "",
         @Column(nullable = false)
-        val status: String = "",
+        var status: String = "",
         @Column(nullable = false)
-        val priority: Int = 0,
+        var priority: Int = 0,
         @ManyToMany(cascade = [CascadeType.DETACH])
         @JoinTable(name = "ath_task_assigned_to",
                 joinColumns = [JoinColumn(name = "task_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
         val assignedTo: MutableList<User> = mutableListOf(),
-        val estimatedTime: Int = 0,
+        var estimatedTime: Int = 0,
         @OneToMany(mappedBy = "task", cascade = [CascadeType.ALL], orphanRemoval = true)
         val timeEntries: MutableList<TimeEntry> = mutableListOf(),
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "created_by", nullable = false)
         val createdBy: User
-) {
-    fun setTitle(newTitle: String) = this.copy(title = newTitle)
-    fun setDescription(newDescription: String) = this.copy(description = newDescription)
-    fun setStatus(newStatus: String) = this.copy(status = newStatus)
-    fun setPriority(newPriority: Int) = this.copy(priority = newPriority)
-    fun setEstimatedTime(newEstimatedTime: Int) = this.copy(estimatedTime = newEstimatedTime)
-}
+)

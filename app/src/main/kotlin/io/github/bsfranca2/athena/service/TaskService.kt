@@ -14,6 +14,7 @@ import io.github.bsfranca2.athena.repository.TaskRepository
 import io.github.bsfranca2.athena.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class TaskService(val userService: UserService, val taskRepository: TaskRepository, val userRepository: UserRepository) {
@@ -36,15 +37,14 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
 
     fun updateTask(id: Int, taskUpdate: TaskDto): TaskDto {
         val task = taskRepository.findByIdOrNull(id) ?: throw TaskNotFoundException(id)
-        val taskUpdated = task.setTitle(taskUpdate.title)
-                .setDescription(taskUpdate.description)
-                .setStatus(taskUpdate.status)
-                .setPriority(taskUpdate.priority)
-                .setEstimatedTime(taskUpdate.estimatedTime)
+        task.title = taskUpdate.title
+        task.description = taskUpdate.description
+        task.status = taskUpdate.status
+        task.estimatedTime = taskUpdate.estimatedTime
         val assignedToUsers = userRepository.findAllById(taskUpdate.assignedTo)
-        taskUpdated.assignedTo.clear()
-        taskUpdated.assignedTo.addAll(assignedToUsers)
-        val taskSaved = taskRepository.save(taskUpdated)
+        task.assignedTo.clear()
+        task.assignedTo.addAll(assignedToUsers)
+        val taskSaved = taskRepository.save(task)
         return TaskAdapter.toDto(taskSaved)
     }
 
@@ -72,11 +72,12 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
         val task = taskRepository.findByIdOrNull(taskId) ?: throw TaskNotFoundException(taskId)
         val timeEntry = task.timeEntries.find { it.id == id } ?: throw TimeEntryNotFoundException(id)
         val (_, _, newDescription, newRegisterAt, newStartAt, newEndAt) = timeEntryDto
-        val timeEntryUpdated = timeEntry.setDescription(newDescription)
-                .setRegisterAt(newRegisterAt)
-                .setStartAt(newStartAt)
-                .setEndAt(newEndAt)
-                .setUpdatedAt()
+        val timeEntryUpdated = timeEntry.copy()
+        timeEntryUpdated.description = newDescription
+        timeEntryUpdated.registerAt = newRegisterAt
+        timeEntryUpdated.startAt = newStartAt
+        timeEntryUpdated.endAt = newEndAt
+        timeEntryUpdated.updatedAt = LocalDateTime.now()
         task.timeEntries.remove(timeEntry)
         task.timeEntries.add(timeEntryUpdated)
         val taskSaved = taskRepository.save(task)
