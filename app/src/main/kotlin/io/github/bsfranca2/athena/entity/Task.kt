@@ -21,6 +21,8 @@ data class Task(
                 inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
         val assignedTo: MutableList<User> = mutableListOf(),
         val estimatedTime: Int = 0,
+        @OneToMany(mappedBy = "task", cascade = [CascadeType.ALL], orphanRemoval = true)
+        val timeEntries: MutableList<TimeEntry> = mutableListOf(),
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "created_by", nullable = false)
         val createdBy: User
