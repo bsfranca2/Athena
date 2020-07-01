@@ -13,6 +13,8 @@ data class Task(
         val description: String = "",
         @Column(nullable = false)
         val status: String = "",
+        @Column(nullable = false)
+        val priority: Int = 0,
         @ManyToMany(cascade = [CascadeType.DETACH])
         @JoinTable(name = "ath_task_assigned_to",
                 joinColumns = [JoinColumn(name = "task_id", referencedColumnName = "id")],
@@ -26,5 +28,6 @@ data class Task(
     fun setTitle(newTitle: String) = this.copy(title = newTitle)
     fun setDescription(newDescription: String) = this.copy(description = newDescription)
     fun setStatus(newStatus: String) = this.copy(status = newStatus)
+    fun setPriority(newPriority: Int) = this.copy(priority = newPriority)
     fun setEstimatedTime(newEstimatedTime: Int) = this.copy(estimatedTime = newEstimatedTime)
 }

@@ -9,6 +9,7 @@ data class TaskDto(
         val description: String = "",
         @field:NotBlank
         val status: String = "",
+        val priority: Int = 0,
         val assignedTo: MutableList<Int> = mutableListOf(),
         @field:Min(0)
         val estimatedTime: Int = 0,
