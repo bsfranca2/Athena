@@ -28,12 +28,20 @@ class TaskController(val taskService: TaskService) {
     fun deleteTask(@PathVariable id: Int)
             = taskService.deleteTask(id)
 
-    @PostMapping("/{id}/time-entries") @ResponseStatus(HttpStatus.CREATED)
-    fun addTimeEntry(@PathVariable id: Int, @RequestBody timeEntryDto: TimeEntryDto)
-            = taskService.addTimeEntry(id, timeEntryDto)
+    @PostMapping("/{taskId}/time-entries") @ResponseStatus(HttpStatus.CREATED)
+    fun addTimeEntry(@PathVariable taskId: Int, @RequestBody timeEntryDto: TimeEntryDto)
+            = taskService.addTimeEntry(taskId, timeEntryDto)
 
-    @GetMapping("/{id}/time-entries")
-    fun listTimeEntries(@PathVariable id: Int)
-            = taskService.listTimeEntries(id)
+    @GetMapping("/{taskId}/time-entries")
+    fun listTimeEntries(@PathVariable taskId: Int)
+            = taskService.listTimeEntries(taskId)
+
+    @PutMapping("/{taskId}/time-entries/{id}")
+    fun updateTimeEntry(@PathVariable taskId: Int, @PathVariable id: Int, @Valid @RequestBody timeEntryDto: TimeEntryDto)
+            = taskService.updateTimeEntry(taskId, id, timeEntryDto)
+
+    @DeleteMapping("/{taskId}/time-entries/{id}")
+    fun removeTimeEntry(@PathVariable taskId: Int, @PathVariable id: Int)
+            = taskService.removeTimeEntry(taskId, id)
 
 }

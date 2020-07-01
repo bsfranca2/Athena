@@ -17,9 +17,9 @@ object TaskAdapter {
 
 object TimeEntryAdapter {
     fun toDto(timeEntry: TimeEntry): TimeEntryDto {
-        val (id, task, description, registerAt, startAt, endAt, createdBy, createdAt) = timeEntry
+        val (id, task, description, registerAt, startAt, endAt, createdBy, createdAt, updatedAt) = timeEntry
         val taskId = task.id
         val createdById = createdBy.id
-        return TimeEntryDto(id, taskId, description, registerAt, startAt, endAt, createdById, createdAt)
+        return TimeEntryDto(id, taskId, description, registerAt, startAt, endAt, createdById, createdAt, updatedAt)
     }
 }

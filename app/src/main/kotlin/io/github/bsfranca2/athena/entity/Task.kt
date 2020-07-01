@@ -1,5 +1,6 @@
 package io.github.bsfranca2.athena.entity
 
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity

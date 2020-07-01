@@ -14,5 +14,6 @@ data class TimeEntryDto(
         val endAt: Int = 0,
         @field:Min(1)
         val createdBy: Int = -1,
-        val createdAt: LocalDateTime = LocalDateTime.now()
+        val createdAt: LocalDateTime = LocalDateTime.now(),
+        val updatedAt: LocalDateTime? = null
 )

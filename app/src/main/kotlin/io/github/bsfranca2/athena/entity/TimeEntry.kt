@@ -23,5 +23,13 @@ data class TimeEntry(
         @JoinColumn(name = "created_by", nullable = false)
         val createdBy: User,
         @Column(name = "created_at", nullable = false)
-        val createdAt: LocalDateTime = LocalDateTime.now()
-)
+        val createdAt: LocalDateTime = LocalDateTime.now(),
+        @Column(name = "updated_at")
+        val updatedAt: LocalDateTime? = null
+) {
+        fun setDescription(newDescription: String) = this.copy(description = newDescription)
+        fun setRegisterAt(newRegisterAt: LocalDateTime) = this.copy(registerAt = newRegisterAt)
+        fun setStartAt(newStartAt: Int) = this.copy(startAt = newStartAt)
+        fun setEndAt(newEndAt: Int) = this.copy(endAt = newEndAt)
+        fun setUpdatedAt() = this.copy(updatedAt = LocalDateTime.now())
+}
