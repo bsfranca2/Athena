@@ -1,5 +1,6 @@
 package io.github.bsfranca2.athena.dto
 
+import java.time.LocalDateTime
 import javax.validation.constraints.*
 
 data class TaskDto(
@@ -11,6 +12,8 @@ data class TaskDto(
         val status: String = "",
         val priority: Int = 0,
         val assignedTo: MutableList<Int> = mutableListOf(),
+        val startDate: LocalDateTime? = null,
+        val endDate: LocalDateTime? = null,
         @field:Min(0)
         val estimatedTime: Int = 0,
         val createdBy: Int = -1

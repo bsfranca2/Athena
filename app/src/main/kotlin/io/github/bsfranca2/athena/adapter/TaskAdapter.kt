@@ -8,9 +8,9 @@ import io.github.bsfranca2.athena.entity.TimeEntry
 object TaskAdapter {
 
     fun toDto(task: Task): TaskDto {
-        val (id, title, description, status, priority, assignedTo, estimatedTime, _, createdBy) = task
+        val (id, title, description, status, priority, assignedTo, startDate, endDate, estimatedTime, _, createdBy) = task
         val assignedToList = assignedTo.map { it.id }.toMutableList()
-        return TaskDto(id, title, description, status, priority, assignedToList, estimatedTime, createdBy.id)
+        return TaskDto(id, title, description, status, priority, assignedToList, startDate, endDate, estimatedTime, createdBy.id)
     }
 
 }

@@ -21,10 +21,10 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
 
     fun createTask(taskDto: TaskDto): TaskDto {
         val user = userService.loggedUser
-        val (_, title, description, status, priority, assignedToUsersId, estimatedTime) = taskDto
+        val (_, title, description, status, priority, assignedToUsersId, startDate, endDate, estimatedTime) = taskDto
         val assignedTo = userRepository.findAllById(assignedToUsersId).toMutableList()
         val timeEntries = mutableListOf<TimeEntry>()
-        val task = Task(-1, title, description, status, priority, assignedTo, estimatedTime, timeEntries, user)
+        val task = Task(-1, title, description, status, priority, assignedTo, startDate, endDate, estimatedTime, timeEntries, user)
         val taskSaved = taskRepository.save(task)
         return TaskAdapter.toDto(taskSaved)
     }
@@ -40,6 +40,8 @@ class TaskService(val userService: UserService, val taskRepository: TaskReposito
         task.title = taskUpdate.title
         task.description = taskUpdate.description
         task.status = taskUpdate.status
+        task.startDate = taskUpdate.startDate
+        task.endDate = taskUpdate.endDate
         task.estimatedTime = taskUpdate.estimatedTime
         val assignedToUsers = userRepository.findAllById(taskUpdate.assignedTo)
         task.assignedTo.clear()

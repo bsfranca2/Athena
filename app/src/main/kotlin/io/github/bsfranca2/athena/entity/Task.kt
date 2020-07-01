@@ -1,5 +1,6 @@
 package io.github.bsfranca2.athena.entity
 
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -20,6 +21,8 @@ data class Task(
                 joinColumns = [JoinColumn(name = "task_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
         val assignedTo: MutableList<User> = mutableListOf(),
+        var startDate: LocalDateTime? = null,
+        var endDate: LocalDateTime? = null,
         var estimatedTime: Int = 0,
         @OneToMany(mappedBy = "task", cascade = [CascadeType.ALL], orphanRemoval = true)
         val timeEntries: MutableList<TimeEntry> = mutableListOf(),
