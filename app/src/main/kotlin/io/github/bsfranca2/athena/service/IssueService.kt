@@ -50,6 +50,9 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
         issue.endDate = issueUpdateDto.endDate
         issue.estimatedTime = issueUpdateDto.estimatedTime
         issue.storyPoints = issueUpdateDto.storyPoints
+        if (issueUpdateDto.parent != issue.parent?.id) {
+            issue.parent = if (issueUpdateDto.parent == null) null else issueRepository.findByIdOrNull(issueUpdateDto.parent)
+        }
         val canAssign = issueUpdateDto.issueType != IssueType.DEFAULT && issueUpdateDto.issueType != IssueType.EPIC
         val assignedToUsers = if (canAssign) userRepository.findAllById(issueUpdateDto.assignedTo) else mutableListOf()
         issue.assignedTo.clear()

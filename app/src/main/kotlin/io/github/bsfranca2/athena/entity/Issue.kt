@@ -32,7 +32,7 @@ data class Issue(
         val assignedTo: MutableList<User> = mutableListOf(),
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "parent_id")
-        val parent: Issue? = null,
+        var parent: Issue? = null,
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "created_by", nullable = false)
         val createdBy: User
