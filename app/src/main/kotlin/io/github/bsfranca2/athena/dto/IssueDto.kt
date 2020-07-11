@@ -3,7 +3,7 @@ package io.github.bsfranca2.athena.dto
 import java.time.LocalDateTime
 import javax.validation.constraints.*
 
-data class TaskDto(
+data class IssueDto(
         val id: Int = -1,
         @field:NotBlank
         val title: String = "",

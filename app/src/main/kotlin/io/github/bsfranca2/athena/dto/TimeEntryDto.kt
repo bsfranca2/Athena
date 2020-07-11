@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull
 data class TimeEntryDto(
         val id: Int = -1,
         @field:Min(1)
-        val task: Int = -1,
+        val issue: Int = -1,
         val description: String = "",
         val registerAt: LocalDateTime = LocalDateTime.now(),
         val startAt: Int = 0,

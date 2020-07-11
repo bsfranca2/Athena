@@ -10,8 +10,8 @@ data class TimeEntry(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int = -1,
         @ManyToOne(cascade = [CascadeType.DETACH])
-        @JoinColumn(name = "task_id")
-        val task: Task,
+        @JoinColumn(name = "issue_id")
+        val issue: Issue,
         var description: String = "",
         @Column(name = "register_at", nullable = false)
         var registerAt: LocalDateTime = LocalDateTime.now(),
