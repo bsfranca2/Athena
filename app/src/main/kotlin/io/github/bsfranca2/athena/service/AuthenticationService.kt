@@ -1,9 +1,9 @@
 package io.github.bsfranca2.athena.service
 
 import io.github.bsfranca2.athena.adapter.UserAdapter
-import io.github.bsfranca2.athena.dto.AuthenticationDto
-import io.github.bsfranca2.athena.dto.LoginResponseDto
-import io.github.bsfranca2.athena.dto.UserDto
+import io.github.bsfranca2.athena.dto.auth.AuthenticationDto
+import io.github.bsfranca2.athena.dto.auth.LoginResponseDto
+import io.github.bsfranca2.athena.dto.user.UserDto
 import io.github.bsfranca2.athena.entity.User
 import io.github.bsfranca2.athena.repository.RoleRepository
 import io.github.bsfranca2.athena.repository.UserRepository

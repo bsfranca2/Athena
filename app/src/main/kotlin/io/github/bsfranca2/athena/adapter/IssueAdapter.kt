@@ -1,6 +1,6 @@
 package io.github.bsfranca2.athena.adapter
 
-import io.github.bsfranca2.athena.dto.TimeEntryDto
+import io.github.bsfranca2.athena.dto.issue.TimeEntryDto
 import io.github.bsfranca2.athena.dto.issue.*
 import io.github.bsfranca2.athena.entity.Issue
 import io.github.bsfranca2.athena.entity.TimeEntry

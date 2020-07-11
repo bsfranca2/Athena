@@ -1,8 +1,6 @@
 package io.github.bsfranca2.athena.controller
 
-import io.github.bsfranca2.athena.dto.AuthenticationDto
-import io.github.bsfranca2.athena.dto.LoginResponseDto
-import io.github.bsfranca2.athena.dto.UserDto
+import io.github.bsfranca2.athena.dto.auth.AuthenticationDto
 import io.github.bsfranca2.athena.service.AuthenticationService
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid

@@ -1,7 +1,6 @@
 package io.github.bsfranca2.athena.controller
 
-import io.github.bsfranca2.athena.dto.issue.IssueDto
-import io.github.bsfranca2.athena.dto.TimeEntryDto
+import io.github.bsfranca2.athena.dto.issue.TimeEntryDto
 import io.github.bsfranca2.athena.dto.issue.RequestIssueDto
 import io.github.bsfranca2.athena.service.IssueService
 import org.springframework.http.HttpStatus

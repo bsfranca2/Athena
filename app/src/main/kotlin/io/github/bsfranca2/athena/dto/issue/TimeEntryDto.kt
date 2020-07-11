@@ -1,4 +1,4 @@
-package io.github.bsfranca2.athena.dto
+package io.github.bsfranca2.athena.dto.issue
 
 import java.time.LocalDateTime
 import javax.validation.constraints.Min

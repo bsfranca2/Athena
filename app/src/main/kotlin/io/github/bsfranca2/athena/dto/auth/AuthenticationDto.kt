@@ -1,4 +1,4 @@
-package io.github.bsfranca2.athena.dto
+package io.github.bsfranca2.athena.dto.auth
 
 import javax.validation.constraints.*
 

@@ -3,7 +3,7 @@ package io.github.bsfranca2.athena.service
 import io.github.bsfranca2.athena.adapter.IssueAdapter
 import io.github.bsfranca2.athena.adapter.TimeEntryAdapter
 import io.github.bsfranca2.athena.dto.issue.IssueDto
-import io.github.bsfranca2.athena.dto.TimeEntryDto
+import io.github.bsfranca2.athena.dto.issue.TimeEntryDto
 import io.github.bsfranca2.athena.dto.issue.RequestIssueDto
 import io.github.bsfranca2.athena.entity.Issue
 import io.github.bsfranca2.athena.entity.TimeEntry
