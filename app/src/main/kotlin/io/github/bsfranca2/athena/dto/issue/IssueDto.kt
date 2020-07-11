@@ -7,8 +7,10 @@ import javax.validation.constraints.*
 open class IssueDto(
         val id: Int = -1,
         val type: IssueType = IssueType.DEFAULT,
+        @field:NotBlank
         val title: String = "",
         val description: String = "",
+        @field:NotBlank
         val status: String = "",
         val priority: Int = 0,
         val startDate: LocalDateTime? = null,
