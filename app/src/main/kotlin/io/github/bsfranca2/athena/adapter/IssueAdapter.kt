@@ -17,9 +17,9 @@ object IssueAdapter {
 
 object TimeEntryAdapter {
     fun toDto(timeEntry: TimeEntry): TimeEntryDto {
-        val (id, issue, description, registerAt, startAt, endAt, createdBy, createdAt, updatedAt) = timeEntry
+        val (id, issue, description, registerAt, timeSpent, createdBy, createdAt, updatedAt) = timeEntry
         val issueId = issue.id
         val createdById = createdBy.id
-        return TimeEntryDto(id, issueId, description, registerAt, startAt, endAt, createdById, createdAt, updatedAt)
+        return TimeEntryDto(id, issueId, description, registerAt, timeSpent, createdById, createdAt, updatedAt)
     }
 }

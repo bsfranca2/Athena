@@ -15,10 +15,8 @@ data class TimeEntry(
         var description: String = "",
         @Column(name = "register_at", nullable = false)
         var registerAt: LocalDateTime = LocalDateTime.now(),
-        @Column(name = "start_at", nullable = false)
-        var startAt: Int = 0,
-        @Column(name = "end_at", nullable = false)
-        var endAt: Int = 0,
+        @Column(name = "time_spent", nullable = false)
+        var timeSpent: Int = 0,
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "created_by", nullable = false)
         val createdBy: User,

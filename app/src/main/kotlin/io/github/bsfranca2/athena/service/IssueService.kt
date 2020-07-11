@@ -55,9 +55,9 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
 
     fun addTimeEntry(issueId: Int, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
         val createdBy = userService.loggedUser
-        val (_, _, description, registerAt, startAt, endAt, _, createdAt) = timeEntryDto
+        val (_, _, description, registerAt, timeSpent, _, createdAt) = timeEntryDto
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
-        val timeEntry = TimeEntry(-1, issue, description, registerAt, startAt, endAt, createdBy, createdAt)
+        val timeEntry = TimeEntry(-1, issue, description, registerAt, timeSpent, createdBy, createdAt)
         issue.timeEntries.add(timeEntry)
         val issueSaved = issueRepository.save(issue)
         return issueSaved.timeEntries.map { TimeEntryAdapter.toDto(it) }
@@ -71,12 +71,11 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
     fun updateTimeEntry(issueId: Int, id: Int, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
         val timeEntry = issue.timeEntries.find { it.id == id } ?: throw TimeEntryNotFoundException(id)
-        val (_, _, newDescription, newRegisterAt, newStartAt, newEndAt) = timeEntryDto
+        val (_, _, newDescription, newRegisterAt, newTimeSpent) = timeEntryDto
         val timeEntryUpdated = timeEntry.copy()
         timeEntryUpdated.description = newDescription
         timeEntryUpdated.registerAt = newRegisterAt
-        timeEntryUpdated.startAt = newStartAt
-        timeEntryUpdated.endAt = newEndAt
+        timeEntryUpdated.timeSpent = newTimeSpent
         timeEntryUpdated.updatedAt = LocalDateTime.now()
         issue.timeEntries.remove(timeEntry)
         issue.timeEntries.add(timeEntryUpdated)
