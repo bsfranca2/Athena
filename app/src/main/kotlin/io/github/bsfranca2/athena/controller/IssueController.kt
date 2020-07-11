@@ -13,8 +13,8 @@ import javax.validation.Valid
 class IssueController(val issueService: IssueService) {
 
     @PostMapping @ResponseStatus(HttpStatus.CREATED)
-    fun createIssue(@Valid @RequestBody newIssueDto: RequestIssueDto)
-            = issueService.createIssue(newIssueDto)
+    fun createIssue(@Valid @RequestBody issueDto: RequestIssueDto)
+            = issueService.createIssue(issueDto)
 
     @GetMapping
     fun listIssues()

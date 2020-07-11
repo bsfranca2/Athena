@@ -19,9 +19,9 @@ import java.time.LocalDateTime
 @Service
 class IssueService(val userService: UserService, val issueRepository: IssueRepository, val userRepository: UserRepository) {
 
-    fun createIssue(newIssueDto: RequestIssueDto): IssueDto {
+    fun createIssue(issueDto: RequestIssueDto): IssueDto {
         val user = userService.loggedUser
-        val (issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, parentId, assignedToUsersId) = newIssueDto
+        val (issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, parentId, assignedToUsersId) = issueDto
         val canAssign = issueType != IssueType.DEFAULT && issueType != IssueType.EPIC
         val assignedTo = if (canAssign) userRepository.findAllById(assignedToUsersId).toMutableList() else mutableListOf()
         val timeEntries = mutableListOf<TimeEntry>()

@@ -6,8 +6,7 @@ import io.github.bsfranca2.athena.entity.User
 object UserAdapter {
 
     fun toDto(user: User): UserDto {
-        val roles = user.roles.map { it.name }
-        return UserDto(user.id, user.email, user.password, user.active, roles)
+        return UserDto(user.id, user.email, user.password, user.active, user.roles.map { it.name })
     }
 
 }
