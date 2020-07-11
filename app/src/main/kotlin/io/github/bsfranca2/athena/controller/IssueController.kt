@@ -1,7 +1,8 @@
 package io.github.bsfranca2.athena.controller
 
-import io.github.bsfranca2.athena.dto.IssueDto
+import io.github.bsfranca2.athena.dto.issue.IssueDto
 import io.github.bsfranca2.athena.dto.TimeEntryDto
+import io.github.bsfranca2.athena.dto.issue.RequestIssueDto
 import io.github.bsfranca2.athena.service.IssueService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -12,15 +13,15 @@ import javax.validation.Valid
 class IssueController(val issueService: IssueService) {
 
     @PostMapping @ResponseStatus(HttpStatus.CREATED)
-    fun createIssue(@Valid @RequestBody issueDto: IssueDto)
-            = issueService.createIssue(issueDto)
+    fun createIssue(@Valid @RequestBody newIssueDto: RequestIssueDto)
+            = issueService.createIssue(newIssueDto)
 
     @GetMapping
     fun listIssues()
             = issueService.listIssues()
 
     @PutMapping("/{id}")
-    fun updateIssue(@PathVariable id: Int, @Valid @RequestBody issueUpdateDto: IssueDto)
+    fun updateIssue(@PathVariable id: Int, @Valid @RequestBody issueUpdateDto: RequestIssueDto)
             = issueService.updateIssue(id, issueUpdateDto)
 
     @DeleteMapping("/{id}")

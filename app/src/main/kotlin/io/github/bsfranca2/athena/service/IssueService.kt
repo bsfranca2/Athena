@@ -2,10 +2,12 @@ package io.github.bsfranca2.athena.service
 
 import io.github.bsfranca2.athena.adapter.IssueAdapter
 import io.github.bsfranca2.athena.adapter.TimeEntryAdapter
-import io.github.bsfranca2.athena.dto.IssueDto
+import io.github.bsfranca2.athena.dto.issue.IssueDto
 import io.github.bsfranca2.athena.dto.TimeEntryDto
+import io.github.bsfranca2.athena.dto.issue.RequestIssueDto
 import io.github.bsfranca2.athena.entity.Issue
 import io.github.bsfranca2.athena.entity.TimeEntry
+import io.github.bsfranca2.athena.enum.IssueType
 import io.github.bsfranca2.athena.exception.IssueNotFoundException
 import io.github.bsfranca2.athena.exception.TimeEntryNotFoundException
 import io.github.bsfranca2.athena.repository.IssueRepository
@@ -17,31 +19,39 @@ import java.time.LocalDateTime
 @Service
 class IssueService(val userService: UserService, val issueRepository: IssueRepository, val userRepository: UserRepository) {
 
-    fun createIssue(issueDto: IssueDto): IssueDto {
+    fun createIssue(newIssueDto: RequestIssueDto): IssueDto {
         val user = userService.loggedUser
-        val (_, title, description, status, priority, assignedToUsersId, startDate, endDate, estimatedTime) = issueDto
-        val assignedTo = userRepository.findAllById(assignedToUsersId).toMutableList()
+        val (issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, parentId, assignedToUsersId) = newIssueDto
+        val canAssign = issueType != IssueType.DEFAULT && issueType != IssueType.EPIC
+        val assignedTo = if (canAssign) userRepository.findAllById(assignedToUsersId).toMutableList() else mutableListOf()
         val timeEntries = mutableListOf<TimeEntry>()
-        val issue = Issue(-1, title, description, status, priority, assignedTo, startDate, endDate, estimatedTime, timeEntries, user)
+        var parent: Issue? = null
+        parentId?.let {
+            parent = issueRepository.findByIdOrNull(it) ?: throw IssueNotFoundException(it)
+        }
+        val issue = Issue(-1, issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, timeEntries, assignedTo, parent, user)
         val issueSaved = issueRepository.save(issue)
         return IssueAdapter.toDto(issueSaved)
     }
 
     fun listIssues(): List<IssueDto> {
         val user = userService.loggedUser
-        val issues = issueRepository.findByCreatedBy(user)
+        val issues = issueRepository.findByCreatedByAndParentIsNull(user)
         return issues.map { IssueAdapter.toDto(it) }
     }
 
-    fun updateIssue(id: Int, issueUpdateDto: IssueDto): IssueDto {
+    fun updateIssue(id: Int, issueUpdateDto: RequestIssueDto): IssueDto {
         val issue = issueRepository.findByIdOrNull(id) ?: throw IssueNotFoundException(id)
+        issue.type = issueUpdateDto.issueType
         issue.title = issueUpdateDto.title
         issue.description = issueUpdateDto.description
         issue.status = issueUpdateDto.status
         issue.startDate = issueUpdateDto.startDate
         issue.endDate = issueUpdateDto.endDate
         issue.estimatedTime = issueUpdateDto.estimatedTime
-        val assignedToUsers = userRepository.findAllById(issueUpdateDto.assignedTo)
+        issue.storyPoints = issueUpdateDto.storyPoints
+        val canAssign = issueUpdateDto.issueType != IssueType.DEFAULT && issueUpdateDto.issueType != IssueType.EPIC
+        val assignedToUsers = if (canAssign) userRepository.findAllById(issueUpdateDto.assignedTo) else mutableListOf()
         issue.assignedTo.clear()
         issue.assignedTo.addAll(assignedToUsers)
         val issueSaved = issueRepository.save(issue)

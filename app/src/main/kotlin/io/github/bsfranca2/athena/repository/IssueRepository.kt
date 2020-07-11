@@ -6,4 +6,6 @@ import org.springframework.data.repository.CrudRepository
 
 interface IssueRepository : CrudRepository<Issue, Int> {
     fun findByCreatedBy(createdBy: User): MutableList<Issue>
+
+    fun findByCreatedByAndParentIsNull(createdBy: User): MutableList<Issue>
 }
