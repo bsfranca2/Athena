@@ -1,5 +1,7 @@
 package io.github.bsfranca2.athena.entity
 
+import org.hibernate.annotations.LazyCollection
+import org.hibernate.annotations.LazyCollectionOption
 import javax.persistence.*
 
 @Entity
@@ -14,7 +16,8 @@ data class User(
         val password: String = "",
         @Column(nullable = false)
         val active: Boolean = false,
-        @ManyToMany(fetch = FetchType.EAGER)
+        @ManyToMany(cascade = [CascadeType.DETACH])
+        @LazyCollection(LazyCollectionOption.FALSE)
         @JoinTable(name = "ath_users_roles",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")])
