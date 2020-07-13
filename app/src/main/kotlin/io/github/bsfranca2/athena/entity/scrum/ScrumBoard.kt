@@ -19,12 +19,17 @@ class ScrumBoard(
 
     @Column(name = "sprint_active_id")
     var sprintActiveId: Long? = null
+        private set
 
     @OneToMany(mappedBy = "board", cascade = [CascadeType.DETACH])
     val sprints: MutableList<Sprint> = mutableListOf()
 
     override fun getType(): ProjectItemType {
         return ProjectItemType.SCRUM_BOARD
+    }
+
+    fun setSprintActive(sprint: Sprint?) {
+        this.sprintActiveId = sprint?.id
     }
 
 }

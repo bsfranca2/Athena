@@ -49,8 +49,7 @@ class ScrumBoardService(
         val id = -1L
         val createdBy = userService.loggedUser
         val items = mutableListOf<ProductBacklogItem>()
-        val active = false
-        val sprint = Sprint(id, scrumBoard, name, active, startDate, endDate, startedAt, endedAt, createdBy)
+        val sprint = Sprint(id, scrumBoard, name, startDate, endDate, startedAt, endedAt, createdBy)
         val sprintBacklog = SprintBacklog(id, sprint, items)
         sprint.setBacklog(sprintBacklog)
         sprintRepository.save(sprint)
@@ -62,25 +61,20 @@ class ScrumBoardService(
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId) ?: throw ScrumBoardNotFoundException(scrumBoardId)
         if (scrumBoard.sprintActiveId != null) throw SprintAlreadyIsInProgressException(scrumBoardId)
         val sprint = sprintRepository.findByIdOrNull(id) ?: throw SprintNotFoundException(id)
-        sprint.active = true
-        sprint.startedAt = LocalDateTime.now()
+        sprint.start()
         sprintRepository.save(sprint)
-        scrumBoard.sprintActiveId = sprint.id
-        val scrumBoardSaved = scrumBoardRepository.save(scrumBoard)
-        return ProjectItemAdapter.toDto(scrumBoardSaved)
+        return ProjectItemAdapter.toDto(scrumBoard)
     }
 
+    @Transactional
     fun endSprint(scrumBoardId: Long, id: Long): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId) ?: throw ScrumBoardNotFoundException(scrumBoardId)
         if (scrumBoard.sprintActiveId == null) throw ScrumBoardHasNotSprintInProgressException(scrumBoardId)
         if (scrumBoard.sprintActiveId != id) throw SprintIsNotInProgressException(id)
         val sprint = sprintRepository.findByIdOrNull(id) ?: throw SprintNotFoundException(id)
-        sprint.active = false
-        sprint.endedAt = LocalDateTime.now()
+        sprint.end()
         sprintRepository.save(sprint)
-        scrumBoard.sprintActiveId = null
-        val scrumBoardSaved = scrumBoardRepository.save(scrumBoard)
-        return ProjectItemAdapter.toDto(scrumBoardSaved)
+        return ProjectItemAdapter.toDto(scrumBoard)
     }
 
 }

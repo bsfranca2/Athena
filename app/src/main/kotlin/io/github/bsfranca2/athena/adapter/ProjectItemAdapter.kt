@@ -33,8 +33,9 @@ object ProjectItemAdapter {
     }
 
     private fun toDto(sprint: Sprint): SprintDto {
-        val (id, board, name, active, startDate, endDate, startedAt, endedAt, createdBy) = sprint
+        val (id, board, name, startDate, endDate, startedAt, endedAt, createdBy) = sprint
         val boardId = board.id
+        val active = sprint.isActive()
         val createdByUserId = createdBy.id.toLong()
         return SprintDto(id, boardId, name, active, startDate, endDate, startedAt, endedAt, createdByUserId)
     }
