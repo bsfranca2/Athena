@@ -5,6 +5,6 @@ import io.github.bsfranca2.athena.entity.scrum.ProductBacklog
 
 data class ProductBacklogItemDto(
         val id: Long,
-        val productBacklog: Long,
+        val productBacklogId: Long,
         val issue: IssueDto
 )

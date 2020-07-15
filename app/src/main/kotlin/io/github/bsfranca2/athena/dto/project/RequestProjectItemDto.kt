@@ -5,6 +5,6 @@ import javax.validation.constraints.NotBlank
 
 data class RequestProjectItemDto(
         @field:NotBlank
-        val name: String,
-        val type: ProjectItemType
+        val name: String = "",
+        val type: ProjectItemType = ProjectItemType.DEFAULT
 )

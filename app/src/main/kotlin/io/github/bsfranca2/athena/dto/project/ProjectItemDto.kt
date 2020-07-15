@@ -6,8 +6,8 @@ import java.time.LocalDateTime
 open class ProjectItemDto(
         val id: Long,
         val name: String,
-        val project: Long,
+        val projectId: Long,
         val type: ProjectItemType,
-        val createdBy: Long,
+        val createdByUserId: Long,
         val createdAt: LocalDateTime
 )

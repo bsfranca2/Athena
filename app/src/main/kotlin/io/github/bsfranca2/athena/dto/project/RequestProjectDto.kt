@@ -4,5 +4,5 @@ import javax.validation.constraints.NotBlank
 
 data class RequestProjectDto(
         @field:NotBlank
-        val name: String
+        val name: String = ""
 )

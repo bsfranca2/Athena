@@ -11,8 +11,8 @@ class BugIssueDto(
         priority: Int,
         startDate: LocalDateTime?,
         endDate: LocalDateTime?,
-        val parentId: Long? = null,
-        val children: MutableList<IssueDto> = mutableListOf(),
-        val assignedTo: MutableList<Long> = mutableListOf(),
-        createdBy: Long
-) : IssueDto(id, IssueType.BUG, title, description, status, priority, startDate, endDate, createdBy)
+        val parentId: Long?,
+        val childrenId: MutableList<IssueDto>,
+        val assignedToUsersId: MutableList<Long>,
+        createdByUserId: Long
+) : IssueDto(id, IssueType.BUG, title, description, status, priority, startDate, endDate, createdByUserId)

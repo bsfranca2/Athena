@@ -5,6 +5,7 @@ import io.github.bsfranca2.athena.adapter.TimeEntryAdapter
 import io.github.bsfranca2.athena.dto.issue.IssueDto
 import io.github.bsfranca2.athena.dto.issue.TimeEntryDto
 import io.github.bsfranca2.athena.dto.issue.RequestIssueDto
+import io.github.bsfranca2.athena.dto.issue.RequestTimeEntryDto
 import io.github.bsfranca2.athena.entity.Issue
 import io.github.bsfranca2.athena.entity.TimeEntry
 import io.github.bsfranca2.athena.enum.IssueType
@@ -45,19 +46,20 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
     @Transactional
     fun updateIssue(id: Long, issueUpdateDto: RequestIssueDto): IssueDto {
         val issue = issueRepository.findByIdOrNull(id) ?: throw IssueNotFoundException(id)
-        issue.type = issueUpdateDto.issueType
-        issue.title = issueUpdateDto.title
-        issue.description = issueUpdateDto.description
-        issue.status = issueUpdateDto.status
-        issue.startDate = issueUpdateDto.startDate
-        issue.endDate = issueUpdateDto.endDate
-        issue.estimatedTime = issueUpdateDto.estimatedTime
-        issue.storyPoints = issueUpdateDto.storyPoints
-        if (issueUpdateDto.parent != issue.parent?.id) {
-            issue.parent = if (issueUpdateDto.parent == null) null else issueRepository.findByIdOrNull(issueUpdateDto.parent)
+        issue.apply {
+            type = issueUpdateDto.issueType
+            title = issueUpdateDto.title
+            description = issueUpdateDto.description
+            status = issueUpdateDto.status
+            startDate = issueUpdateDto.startDate
+            endDate = issueUpdateDto.endDate
+            estimatedTime = issueUpdateDto.estimatedTime
+            storyPoints = issueUpdateDto.storyPoints
         }
-        val canAssign = issueUpdateDto.issueType != IssueType.DEFAULT && issueUpdateDto.issueType != IssueType.EPIC
-        val assignedToUsers = if (canAssign) userRepository.findAllById(issueUpdateDto.assignedTo) else mutableListOf()
+        if (issueUpdateDto.parentId != issue.parent?.id) {
+            issue.parent = if (issueUpdateDto.parentId == null) null else issueRepository.findByIdOrNull(issueUpdateDto.parentId)
+        }
+        val assignedToUsers = if (issue.canAssign()) userRepository.findAllById(issueUpdateDto.assignedToUsersId) else mutableListOf()
         issue.assignedTo.clear()
         issue.assignedTo.addAll(assignedToUsers)
         val issueSaved = issueRepository.save(issue)
@@ -71,10 +73,11 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
     }
 
     @Transactional
-    fun addTimeEntry(issueId: Long, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
-        val createdBy = userService.loggedUser
-        val (_, _, description, registerAt, timeSpent, _, createdAt) = timeEntryDto
+    fun addTimeEntry(issueId: Long, requestTimeEntryDto: RequestTimeEntryDto): List<TimeEntryDto> {
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
+        val (description, registerAt, timeSpent) = requestTimeEntryDto
+        val createdBy = userService.loggedUser
+        val createdAt = LocalDateTime.now()
         val timeEntry = TimeEntry(-1, issue, description, registerAt, timeSpent, createdBy, createdAt)
         issue.timeEntries.add(timeEntry)
         val issueSaved = issueRepository.save(issue)
@@ -87,15 +90,16 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
     }
 
     @Transactional
-    fun updateTimeEntry(issueId: Long, id: Long, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
+    fun updateTimeEntry(issueId: Long, id: Long, requestTimeEntryDto: RequestTimeEntryDto): List<TimeEntryDto> {
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
         val timeEntry = issue.timeEntries.find { it.id == id } ?: throw TimeEntryNotFoundException(id)
-        val (_, _, newDescription, newRegisterAt, newTimeSpent) = timeEntryDto
-        val timeEntryUpdated = timeEntry.copy()
-        timeEntryUpdated.description = newDescription
-        timeEntryUpdated.registerAt = newRegisterAt
-        timeEntryUpdated.timeSpent = newTimeSpent
-        timeEntryUpdated.updatedAt = LocalDateTime.now()
+        val (newDescription, newRegisterAt, newTimeSpent) = requestTimeEntryDto
+        val timeEntryUpdated = timeEntry.copy().apply {
+            description = newDescription
+            registerAt = newRegisterAt
+            timeSpent = newTimeSpent
+            updatedAt = LocalDateTime.now()
+        }
         issue.timeEntries.remove(timeEntry)
         issue.timeEntries.add(timeEntryUpdated)
         val issueSaved = issueRepository.save(issue)

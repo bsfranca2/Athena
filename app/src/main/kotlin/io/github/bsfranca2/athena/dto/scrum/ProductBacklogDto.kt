@@ -7,9 +7,9 @@ import java.time.LocalDateTime
 class ProductBacklogDto(
         id: Long,
         name: String,
-        project: Long,
+        projectId: Long,
         type: ProjectItemType,
         val items: MutableList<ProductBacklogItemDto>,
-        createdBy: Long,
+        createdByUserId: Long,
         createdAt: LocalDateTime
-): ProjectItemDto(id, name, project, type, createdBy, createdAt)
+): ProjectItemDto(id, name, projectId, type, createdByUserId, createdAt)

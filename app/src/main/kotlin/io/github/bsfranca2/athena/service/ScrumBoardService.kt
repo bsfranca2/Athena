@@ -46,11 +46,10 @@ class ScrumBoardService(
     fun createSprint(scrumBoardId: Long, requestDto: RequestSprintDto): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId) ?: throw ScrumBoardNotFoundException(scrumBoardId)
         val (name, startDate, endDate, startedAt, endedAt) = requestDto
-        val id = -1L
         val createdBy = userService.loggedUser
         val items = mutableListOf<ProductBacklogItem>()
-        val sprint = Sprint(id, scrumBoard, name, startDate, endDate, startedAt, endedAt, createdBy)
-        val sprintBacklog = SprintBacklog(id, sprint, items)
+        val sprint = Sprint(-1L, scrumBoard, name, startDate, endDate, startedAt, endedAt, createdBy)
+        val sprintBacklog = SprintBacklog(-1L, sprint, items)
         sprint.setBacklog(sprintBacklog)
         sprintRepository.save(sprint)
         return ProjectItemAdapter.toDto(scrumBoard)

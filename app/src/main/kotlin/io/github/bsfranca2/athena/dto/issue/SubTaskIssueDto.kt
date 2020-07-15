@@ -11,8 +11,8 @@ class SubTaskIssueDto(
         priority: Int,
         startDate: LocalDateTime?,
         endDate: LocalDateTime?,
-        val estimatedTime: Int = 0,
-        val parentId: Long? = null,
-        val assignedTo: MutableList<Long> = mutableListOf(),
-        createdBy: Long
-) : IssueDto(id, IssueType.SUB_TASK, title, description, status, priority, startDate, endDate, createdBy)
+        val estimatedTime: Int,
+        val parentId: Long?,
+        val assignedToUsersId: MutableList<Long>,
+        createdByUserId: Long
+) : IssueDto(id, IssueType.SUB_TASK, title, description, status, priority, startDate, endDate, createdByUserId)

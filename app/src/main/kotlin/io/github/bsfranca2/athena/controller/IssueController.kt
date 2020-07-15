@@ -1,7 +1,7 @@
 package io.github.bsfranca2.athena.controller
 
-import io.github.bsfranca2.athena.dto.issue.TimeEntryDto
 import io.github.bsfranca2.athena.dto.issue.RequestIssueDto
+import io.github.bsfranca2.athena.dto.issue.RequestTimeEntryDto
 import io.github.bsfranca2.athena.service.IssueService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -28,16 +28,16 @@ class IssueController(val issueService: IssueService) {
             = issueService.deleteIssue(id)
 
     @PostMapping("/{issueId}/time-entries") @ResponseStatus(HttpStatus.CREATED)
-    fun addTimeEntry(@PathVariable issueId: Long, @RequestBody timeEntryDto: TimeEntryDto)
-            = issueService.addTimeEntry(issueId, timeEntryDto)
+    fun addTimeEntry(@PathVariable issueId: Long, @RequestBody requestTimeEntryDto: RequestTimeEntryDto)
+            = issueService.addTimeEntry(issueId, requestTimeEntryDto)
 
     @GetMapping("/{issueId}/time-entries")
     fun listTimeEntries(@PathVariable issueId: Long)
             = issueService.listTimeEntries(issueId)
 
     @PutMapping("/{issueId}/time-entries/{id}")
-    fun updateTimeEntry(@PathVariable issueId: Long, @PathVariable id: Long, @Valid @RequestBody timeEntryDto: TimeEntryDto)
-            = issueService.updateTimeEntry(issueId, id, timeEntryDto)
+    fun updateTimeEntry(@PathVariable issueId: Long, @PathVariable id: Long, @RequestBody requestTimeEntryDto: RequestTimeEntryDto)
+            = issueService.updateTimeEntry(issueId, id, requestTimeEntryDto)
 
     @DeleteMapping("/{issueId}/time-entries/{id}")
     fun removeTimeEntry(@PathVariable issueId: Long, @PathVariable id: Long)

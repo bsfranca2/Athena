@@ -29,11 +29,10 @@ class ProjectService(
 
     @Transactional
     fun createProject(requestProjectDto: RequestProjectDto): ProjectDto {
-        val id = -1L
         val (name) = requestProjectDto
         val createdBy = userService.loggedUser
         val createdAt = LocalDateTime.now()
-        val project = Project(id, name, createdBy, createdAt)
+        val project = Project(-1L, name, createdBy, createdAt)
         val projectSaved = projectRepository.save(project)
         return ProjectAdapter.toDto(projectSaved)
     }

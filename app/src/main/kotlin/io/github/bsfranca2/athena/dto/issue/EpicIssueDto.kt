@@ -11,7 +11,7 @@ class EpicIssueDto(
         priority: Int,
         startDate: LocalDateTime?,
         endDate: LocalDateTime?,
-        val parentId: Long? = null,
-        val children: MutableList<IssueDto> = mutableListOf(),
-        createdBy: Long
-) : IssueDto(id, IssueType.EPIC, title, description, status, priority, startDate, endDate, createdBy)
+        val parentId: Long?,
+        val childrenId: MutableList<IssueDto>,
+        createdByUserId: Long
+) : IssueDto(id, IssueType.EPIC, title, description, status, priority, startDate, endDate, createdByUserId)

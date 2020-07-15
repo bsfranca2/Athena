@@ -7,10 +7,10 @@ import java.time.LocalDateTime
 class ScrumBoardDto(
         id: Long,
         name: String,
-        project: Long,
+        projectId: Long,
         type: ProjectItemType,
         var sprintActiveId: Long?,
         var sprints: MutableList<SprintDto>,
-        createdBy: Long,
+        createdByUserId: Long,
         createdAt: LocalDateTime
-): ProjectItemDto(id, name, project, type, createdBy, createdAt)
+): ProjectItemDto(id, name, projectId, type, createdByUserId, createdAt)
