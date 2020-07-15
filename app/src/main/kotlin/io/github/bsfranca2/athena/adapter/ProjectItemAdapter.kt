@@ -18,14 +18,14 @@ object ProjectItemAdapter {
         val name = projectItem.name
         val project = projectItem.project.id
         val type = projectItem.getType()
-        val createdBy = projectItem.createdBy.id.toLong()
+        val createdBy = projectItem.createdBy.id
         val createdAt = projectItem.createdAt
         return ProjectItemDto(id, name, project, type, createdBy, createdAt)
     }
 
     fun toDto(scrumBoard: ScrumBoard): ScrumBoardDto {
         val sprints = scrumBoard.sprints.map { toDto(it) }.toMutableList()
-        return ScrumBoardDto(scrumBoard.id, scrumBoard.name, scrumBoard.project.id, scrumBoard.getType(), scrumBoard.sprintActiveId, sprints, scrumBoard.createdBy.id.toLong(), scrumBoard.createdAt)
+        return ScrumBoardDto(scrumBoard.id, scrumBoard.name, scrumBoard.project.id, scrumBoard.getType(), scrumBoard.sprintActiveId, sprints, scrumBoard.createdBy.id, scrumBoard.createdAt)
     }
 
     private fun toDto(item: ProductBacklogItem): ProductBacklogItemDto {
@@ -36,7 +36,7 @@ object ProjectItemAdapter {
         val (id, board, name, startDate, endDate, startedAt, endedAt, createdBy) = sprint
         val boardId = board.id
         val active = sprint.isActive()
-        val createdByUserId = createdBy.id.toLong()
+        val createdByUserId = createdBy.id
         return SprintDto(id, boardId, name, active, startDate, endDate, startedAt, endedAt, createdByUserId)
     }
 

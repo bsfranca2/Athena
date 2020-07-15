@@ -4,7 +4,7 @@ import io.github.bsfranca2.athena.enum.IssueType
 import java.time.LocalDateTime
 
 class SubTaskIssueDto(
-        id: Int,
+        id: Long,
         title: String,
         description: String,
         status: String,
@@ -12,7 +12,7 @@ class SubTaskIssueDto(
         startDate: LocalDateTime?,
         endDate: LocalDateTime?,
         val estimatedTime: Int = 0,
-        val parentId: Int? = null,
-        val assignedTo: MutableList<Int> = mutableListOf(),
-        createdBy: Int
+        val parentId: Long? = null,
+        val assignedTo: MutableList<Long> = mutableListOf(),
+        createdBy: Long
 ) : IssueDto(id, IssueType.SUB_TASK, title, description, status, priority, startDate, endDate, createdBy)

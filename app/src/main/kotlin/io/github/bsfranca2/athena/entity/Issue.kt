@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Issue(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int = -1,
+        val id: Long = -1,
         @Enumerated(EnumType.STRING)
         var type: IssueType = IssueType.DEFAULT,
         @Column(nullable = false)

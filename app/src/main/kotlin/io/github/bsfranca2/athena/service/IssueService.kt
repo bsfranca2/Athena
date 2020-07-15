@@ -43,7 +43,7 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
     }
 
     @Transactional
-    fun updateIssue(id: Int, issueUpdateDto: RequestIssueDto): IssueDto {
+    fun updateIssue(id: Long, issueUpdateDto: RequestIssueDto): IssueDto {
         val issue = issueRepository.findByIdOrNull(id) ?: throw IssueNotFoundException(id)
         issue.type = issueUpdateDto.issueType
         issue.title = issueUpdateDto.title
@@ -65,13 +65,13 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
     }
 
     @Transactional
-    fun deleteIssue(id: Int) {
+    fun deleteIssue(id: Long) {
         val issue  = issueRepository.findByIdOrNull(id) ?: throw IssueNotFoundException(id)
         return issueRepository.delete(issue)
     }
 
     @Transactional
-    fun addTimeEntry(issueId: Int, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
+    fun addTimeEntry(issueId: Long, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
         val createdBy = userService.loggedUser
         val (_, _, description, registerAt, timeSpent, _, createdAt) = timeEntryDto
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
@@ -81,13 +81,13 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
         return issueSaved.timeEntries.map { TimeEntryAdapter.toDto(it) }
     }
 
-    fun listTimeEntries(issueId: Int): List<TimeEntryDto> {
+    fun listTimeEntries(issueId: Long): List<TimeEntryDto> {
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
         return issue.timeEntries.map { TimeEntryAdapter.toDto(it) }
     }
 
     @Transactional
-    fun updateTimeEntry(issueId: Int, id: Int, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
+    fun updateTimeEntry(issueId: Long, id: Long, timeEntryDto: TimeEntryDto): List<TimeEntryDto> {
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
         val timeEntry = issue.timeEntries.find { it.id == id } ?: throw TimeEntryNotFoundException(id)
         val (_, _, newDescription, newRegisterAt, newTimeSpent) = timeEntryDto
@@ -103,7 +103,7 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
     }
 
     @Transactional
-    fun removeTimeEntry(issueId: Int, id: Int) {
+    fun removeTimeEntry(issueId: Long, id: Long) {
         val issue = issueRepository.findByIdOrNull(issueId) ?: throw IssueNotFoundException(issueId)
         val timeEntry = issue.timeEntries.find { it.id == id } ?: throw TimeEntryNotFoundException(id)
         issue.timeEntries.remove(timeEntry)

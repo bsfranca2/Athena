@@ -8,7 +8,7 @@ object ProjectAdapter {
 
     fun toDto(project: Project): ProjectDto {
         val (id, name, createdBy, createdAt) = project
-        val createdById = createdBy.id.toLong()
+        val createdById = createdBy.id
         val items = project.items.map { toDto(it) }.toMutableList()
         return ProjectDto(id, name, items, createdById, createdAt)
     }
@@ -18,7 +18,7 @@ object ProjectAdapter {
         val name = projectItem.name
         val project = projectItem.project.id
         val type = projectItem.getType()
-        val createdBy = projectItem.createdBy.id.toLong()
+        val createdBy = projectItem.createdBy.id
         val createdAt = projectItem.createdAt
         return ProjectDto.Item(id, name, project, type, createdBy, createdAt)
     }

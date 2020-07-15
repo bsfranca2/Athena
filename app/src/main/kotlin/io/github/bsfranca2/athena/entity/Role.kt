@@ -5,6 +5,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "ath_role")
 data class Role(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(columnDefinition = "INTEGER", nullable = false, unique = true)
+        val id: Long = -1,
         @Column(unique = true, nullable = false)
         val name: String,
         @ManyToMany(mappedBy = "roles", cascade = [CascadeType.DETACH])
@@ -14,4 +18,4 @@ data class Role(
                 joinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "privilege_id", referencedColumnName = "id")])
         val privileges: MutableList<Privilege> = mutableListOf()
-) : BaseEntity()
+)

@@ -16,6 +16,6 @@ data class RequestIssueDto(
         val endDate: LocalDateTime? = null,
         val estimatedTime: Int = 0,
         val storyPoints: Int = 0,
-        val parent: Int? = null,
-        val assignedTo: MutableList<Int> = mutableListOf()
+        val parent: Long? = null,
+        val assignedTo: MutableList<Long> = mutableListOf()
 )

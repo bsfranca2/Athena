@@ -8,7 +8,7 @@ import javax.persistence.*
 data class TimeEntry(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int = -1,
+        val id: Long = -1,
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "issue_id")
         val issue: Issue,

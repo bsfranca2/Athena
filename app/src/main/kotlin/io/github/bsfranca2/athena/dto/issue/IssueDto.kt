@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import javax.validation.constraints.*
 
 open class IssueDto(
-        val id: Int = -1,
+        val id: Long = -1,
         val type: IssueType = IssueType.DEFAULT,
         @field:NotBlank
         val title: String = "",
@@ -15,5 +15,5 @@ open class IssueDto(
         val priority: Int = 0,
         val startDate: LocalDateTime? = null,
         val endDate: LocalDateTime? = null,
-        val createdBy: Int = -1
+        val createdBy: Long = -1
 )

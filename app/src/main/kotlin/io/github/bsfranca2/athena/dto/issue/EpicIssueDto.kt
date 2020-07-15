@@ -4,14 +4,14 @@ import io.github.bsfranca2.athena.enum.IssueType
 import java.time.LocalDateTime
 
 class EpicIssueDto(
-        id: Int,
+        id: Long,
         title: String,
         description: String,
         status: String,
         priority: Int,
         startDate: LocalDateTime?,
         endDate: LocalDateTime?,
-        val parentId: Int? = null,
+        val parentId: Long? = null,
         val children: MutableList<IssueDto> = mutableListOf(),
-        createdBy: Int
+        createdBy: Long
 ) : IssueDto(id, IssueType.EPIC, title, description, status, priority, startDate, endDate, createdBy)

@@ -9,7 +9,7 @@ import javax.persistence.*
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int = -1,
+        val id: Long = -1,
         @Column(unique = true, nullable = false)
         val email: String = "",
         @Column(nullable = false)
