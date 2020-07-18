@@ -40,14 +40,14 @@ data class Sprint(
         fun start(): Sprint {
                 this.active = true
                 this.startedAt = LocalDateTime.now()
-                this.board.setSprintActive(this)
+                this.board.startSprint(this)
                 return this
         }
 
         fun end(): Sprint {
                 this.active = false
                 this.endedAt = LocalDateTime.now()
-                this.board.setSprintActive(null)
+                this.board.endSprint(this)
                 return this
         }
 }

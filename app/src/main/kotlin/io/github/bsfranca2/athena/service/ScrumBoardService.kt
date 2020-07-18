@@ -58,7 +58,6 @@ class ScrumBoardService(
     @Transactional
     fun startSprint(scrumBoardId: Long, id: Long): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId) ?: throw ScrumBoardNotFoundException(scrumBoardId)
-        if (scrumBoard.sprintActiveId != null) throw SprintAlreadyIsInProgressException(scrumBoardId)
         val sprint = sprintRepository.findByIdOrNull(id) ?: throw SprintNotFoundException(id)
         sprint.start()
         sprintRepository.save(sprint)
@@ -68,8 +67,8 @@ class ScrumBoardService(
     @Transactional
     fun endSprint(scrumBoardId: Long, id: Long): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId) ?: throw ScrumBoardNotFoundException(scrumBoardId)
-        if (scrumBoard.sprintActiveId == null) throw ScrumBoardHasNotSprintInProgressException(scrumBoardId)
-        if (scrumBoard.sprintActiveId != id) throw SprintIsNotInProgressException(id)
+        if (scrumBoard.sprintActiveIds.isEmpty()) throw ScrumBoardHasNotSprintInProgressException(scrumBoardId)
+        if (!scrumBoard.sprintActiveIds.contains(id)) throw SprintIsNotInProgressException(id)
         val sprint = sprintRepository.findByIdOrNull(id) ?: throw SprintNotFoundException(id)
         sprint.end()
         sprintRepository.save(sprint)

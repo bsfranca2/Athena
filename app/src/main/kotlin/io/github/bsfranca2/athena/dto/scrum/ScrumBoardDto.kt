@@ -9,7 +9,7 @@ class ScrumBoardDto(
         name: String,
         projectId: Long,
         type: ProjectItemType,
-        var sprintActiveId: Long?,
+        var sprintActiveIds: MutableSet<Long>,
         var sprints: MutableList<SprintDto>,
         createdByUserId: Long,
         createdAt: LocalDateTime

@@ -25,7 +25,7 @@ object ProjectItemAdapter {
 
     fun toDto(scrumBoard: ScrumBoard): ScrumBoardDto {
         val sprints = scrumBoard.sprints.map { toDto(it) }.toMutableList()
-        return ScrumBoardDto(scrumBoard.id, scrumBoard.name, scrumBoard.project.id, scrumBoard.getType(), scrumBoard.sprintActiveId, sprints, scrumBoard.createdBy.id, scrumBoard.createdAt)
+        return ScrumBoardDto(scrumBoard.id, scrumBoard.name, scrumBoard.project.id, scrumBoard.getType(), scrumBoard.sprintActiveIds, sprints, scrumBoard.createdBy.id, scrumBoard.createdAt)
     }
 
     private fun toDto(item: ProductBacklogItem): ProductBacklogItemDto {
