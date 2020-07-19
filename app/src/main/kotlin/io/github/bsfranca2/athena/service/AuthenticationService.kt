@@ -1,7 +1,7 @@
 package io.github.bsfranca2.athena.service
 
 import io.github.bsfranca2.athena.adapter.UserAdapter
-import io.github.bsfranca2.athena.dto.auth.AuthenticationDto
+import io.github.bsfranca2.athena.dto.auth.RequestAccountDto
 import io.github.bsfranca2.athena.dto.auth.LoginResponseDto
 import io.github.bsfranca2.athena.dto.user.UserDto
 import io.github.bsfranca2.athena.entity.User
@@ -11,33 +11,27 @@ import io.github.bsfranca2.athena.security.SecurityService
 import io.github.bsfranca2.athena.validation.EmailExistsException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AuthenticationService(
-        val userRepository: UserRepository,
-        val passwordEncoder: PasswordEncoder,
-        val roleRepository: RoleRepository,
-        val securityService: SecurityService
+        private val userRepository: UserRepository,
+        private val accountService: AccountService,
+        private val securityService: SecurityService,
+        private val workspaceService: WorkspaceService
 ) {
-
-    fun registerNewUserAccount(authenticationDto: AuthenticationDto): UserDto {
-        val (email, password) = authenticationDto
-        if (emailExists(email)) {
-            throw EmailExistsException("Já existe uma conta com o email: " + email)
+    @Transactional
+    fun registerNewUserAccount(requestAccountDto: RequestAccountDto): UserDto {
+        val (email, password, workspaceName, workspaceSlug) = requestAccountDto
+        val user = userRepository.save(accountService.createUserAccount(email, password))
+        if (workspaceName != null && workspaceSlug != null) {
+            workspaceService.createUserWorkspace(workspaceName, workspaceSlug, user)
         }
-        val active = true
-        val userRole = roleRepository.findByName("ROLE_USER") ?: throw Throwable("Não foi encontrado a função de usuário")
-        val roles = mutableListOf(userRole)
-        val user = User(-1, email, passwordEncoder.encode(password), active, roles)
-        return UserAdapter.toDto(userRepository.save(user))
+        return UserAdapter.toDto(user)
     }
 
-    private fun emailExists(email: String): Boolean {
-        return userRepository.findByEmail(email) != null
-    }
-
-    fun login(authenticationDto: AuthenticationDto): LoginResponseDto {
-        val (email, password) = authenticationDto
+    fun login(requestAccountDto: RequestAccountDto): LoginResponseDto {
+        val (email, password) = requestAccountDto
         val token = securityService.login(email, password)
         if (token.isBlank()) throw Throwable("Credencias invalidas")
         return LoginResponseDto(success = true, token = token)

@@ -1,29 +1,31 @@
 package io.github.bsfranca2.athena.controller
 
+import io.github.bsfranca2.athena.dto.project.RequestMemberInviteDto
 import io.github.bsfranca2.athena.dto.project.RequestProjectDto
 import io.github.bsfranca2.athena.dto.project.RequestProjectItemDto
+import io.github.bsfranca2.athena.service.InviteService
 import io.github.bsfranca2.athena.service.ProjectService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/projects")
-class ProjectController(val projectService: ProjectService) {
+@RequestMapping("/api/workspaces/{workspaceId}/projects")
+class ProjectController(val projectService: ProjectService, val inviteService: InviteService) {
 
     @PostMapping @ResponseStatus(HttpStatus.CREATED)
-    fun createProject(@RequestBody requestProjectDto: RequestProjectDto)
-            = projectService.createProject(requestProjectDto)
+    fun createProject(@PathVariable workspaceId: Long, @RequestBody requestProjectDto: RequestProjectDto)
+            = projectService.createProject(workspaceId, requestProjectDto)
 
     @GetMapping
-    fun listProjects()
-            = projectService.listProjects()
+    fun listProjects(@PathVariable workspaceId: Long)
+            = projectService.listProjects(workspaceId)
 
     @PutMapping("/{id}")
-    fun updateProject(@PathVariable id: Long, @RequestBody requestProjectDto: RequestProjectDto)
-            = projectService.updateProject(id, requestProjectDto)
+    fun updateProject(@PathVariable workspaceId: Long, @PathVariable id: Long, @RequestBody requestProjectDto: RequestProjectDto)
+            = projectService.updateProject(workspaceId, id, requestProjectDto)
 
     @DeleteMapping("/{id}")
-    fun deleteProject(@PathVariable id: Long)
+    fun deleteProject(@PathVariable workspaceId: Long, @PathVariable id: Long)
             = projectService.deleteProject(id)
 
     @PostMapping("/{projectId}/items") @ResponseStatus(HttpStatus.CREATED)
@@ -33,5 +35,9 @@ class ProjectController(val projectService: ProjectService) {
     @GetMapping("/{projectId}/items")
     fun listProjectItems(@PathVariable projectId: Long)
             = projectService.listProjectItems(projectId)
+
+    @PostMapping("/{projectId}/invitations")
+    fun inviteMember(@PathVariable projectId: Long, @RequestBody invitationsDto: List<RequestMemberInviteDto>)
+            = inviteService.inviteMember(projectId, invitationsDto)
 
 }

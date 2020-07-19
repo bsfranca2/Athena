@@ -9,6 +9,9 @@ data class Project(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long,
+        @ManyToOne
+        @JoinColumn(name = "project_id")
+        val workspace: Workspace,
         var name: String,
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "created_by", nullable = false)
@@ -18,4 +21,7 @@ data class Project(
 ) {
         @OneToMany(mappedBy = "project", cascade = [CascadeType.DETACH])
         val items: MutableList<ProjectItem> = mutableListOf()
+
+        @OneToMany(mappedBy = "project", cascade = [CascadeType.ALL])
+        val members: MutableList<ProjectMember> = mutableListOf()
 }

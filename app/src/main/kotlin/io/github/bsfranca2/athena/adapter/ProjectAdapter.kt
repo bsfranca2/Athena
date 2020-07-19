@@ -7,10 +7,9 @@ import io.github.bsfranca2.athena.entity.ProjectItem
 object ProjectAdapter {
 
     fun toDto(project: Project): ProjectDto {
-        val (id, name, createdBy, createdAt) = project
-        val createdById = createdBy.id
+        val (id, workspace, name, createdBy, createdAt) = project
         val items = project.items.map { toDto(it) }.toMutableList()
-        return ProjectDto(id, name, items, createdById, createdAt)
+        return ProjectDto(id, workspace.id, name, items, createdBy.id, createdAt)
     }
 
     private fun toDto(projectItem: ProjectItem): ProjectDto.Item {

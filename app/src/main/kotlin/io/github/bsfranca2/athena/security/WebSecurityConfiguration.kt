@@ -99,6 +99,8 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .antMatchers("/v3/api-docs/**", "/swagger-ui.html")
                 .permitAll()
+                .antMatchers("/api/invitations/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
     }

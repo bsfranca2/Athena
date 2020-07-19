@@ -2,11 +2,13 @@ package io.github.bsfranca2.athena.dto.auth
 
 import javax.validation.constraints.*
 
-data class AuthenticationDto(
+data class RequestAccountDto(
         @field:NotBlank
         @field:Email
-        val email: String,
+        val email: String = "",
         @field:NotBlank
         @field:Size(min = 8)
-        val password: String
+        val password: String = "",
+        val workspaceName: String? = null,
+        val workspaceSlug: String? = null
 )

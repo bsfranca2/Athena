@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 
 data class ProjectDto(
         val id: Long,
+        val workspaceId: Long,
         val name: String,
         val items: MutableList<Item>,
         val createdByUserId: Long,
