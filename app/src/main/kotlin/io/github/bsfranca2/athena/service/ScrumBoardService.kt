@@ -11,6 +11,10 @@ import io.github.bsfranca2.athena.entity.scrum.ProductBacklogItem
 import io.github.bsfranca2.athena.entity.scrum.Sprint
 import io.github.bsfranca2.athena.entity.scrum.SprintBacklog
 import io.github.bsfranca2.athena.exception.*
+import io.github.bsfranca2.athena.exception.scrum.ScrumBoardNotFoundException
+import io.github.bsfranca2.athena.exception.scrum.SprintNotFoundException
+import io.github.bsfranca2.athena.exception.scrum.ScrumBoardHasNotSprintInProgressException
+import io.github.bsfranca2.athena.exception.scrum.SprintIsNotInProgressException
 import io.github.bsfranca2.athena.repository.ProjectMemberRepository
 import io.github.bsfranca2.athena.repository.ScrumBoardRepository
 import io.github.bsfranca2.athena.repository.SprintBacklogRepository
@@ -18,7 +22,6 @@ import io.github.bsfranca2.athena.repository.SprintRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 @Service
 class ScrumBoardService(

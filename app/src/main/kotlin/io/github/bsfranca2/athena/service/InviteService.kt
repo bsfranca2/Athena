@@ -5,8 +5,8 @@ import io.github.bsfranca2.athena.dto.project.RequestMemberInviteDto
 import io.github.bsfranca2.athena.dto.auth.RequestAccountDto
 import io.github.bsfranca2.athena.entity.MemberInvite
 import io.github.bsfranca2.athena.entity.ProjectMember
-import io.github.bsfranca2.athena.exception.InviteNotFoundException
-import io.github.bsfranca2.athena.exception.ProjectNotFoundException
+import io.github.bsfranca2.athena.exception.project.InviteNotFoundException
+import io.github.bsfranca2.athena.exception.project.ProjectNotFoundException
 import io.github.bsfranca2.athena.exception.UnauthorizedResourceException
 import io.github.bsfranca2.athena.repository.*
 import org.springframework.data.repository.findByIdOrNull

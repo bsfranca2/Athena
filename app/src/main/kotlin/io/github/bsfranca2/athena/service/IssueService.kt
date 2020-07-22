@@ -9,8 +9,8 @@ import io.github.bsfranca2.athena.dto.issue.RequestTimeEntryDto
 import io.github.bsfranca2.athena.entity.Issue
 import io.github.bsfranca2.athena.entity.TimeEntry
 import io.github.bsfranca2.athena.enum.IssueType
-import io.github.bsfranca2.athena.exception.IssueNotFoundException
-import io.github.bsfranca2.athena.exception.TimeEntryNotFoundException
+import io.github.bsfranca2.athena.exception.issue.IssueNotFoundException
+import io.github.bsfranca2.athena.exception.issue.TimeEntryNotFoundException
 import io.github.bsfranca2.athena.repository.IssueRepository
 import io.github.bsfranca2.athena.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull

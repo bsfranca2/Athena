@@ -7,7 +7,7 @@ import io.github.bsfranca2.athena.repository.RoleRepository
 import io.github.bsfranca2.athena.repository.UserRepository
 import io.github.bsfranca2.athena.repository.WorkspaceRepository
 import io.github.bsfranca2.athena.security.UserPrincipal
-import io.github.bsfranca2.athena.validation.EmailExistsException
+import io.github.bsfranca2.athena.exception.user.EmailExistsException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service

@@ -9,14 +9,13 @@ import io.github.bsfranca2.athena.dto.project.RequestProjectItemDto
 import io.github.bsfranca2.athena.entity.Project
 import io.github.bsfranca2.athena.entity.ProjectItem
 import io.github.bsfranca2.athena.entity.ProjectMember
-import io.github.bsfranca2.athena.entity.User
 import io.github.bsfranca2.athena.entity.scrum.ProductBacklog
 import io.github.bsfranca2.athena.entity.scrum.ProductBacklogItem
 import io.github.bsfranca2.athena.entity.scrum.ScrumBoard
 import io.github.bsfranca2.athena.enum.ProjectItemType
-import io.github.bsfranca2.athena.exception.ProjectNotFoundException
+import io.github.bsfranca2.athena.exception.project.ProjectNotFoundException
 import io.github.bsfranca2.athena.exception.UnauthorizedResourceException
-import io.github.bsfranca2.athena.exception.WorkspaceNotFoundException
+import io.github.bsfranca2.athena.exception.workspace.WorkspaceNotFoundException
 import io.github.bsfranca2.athena.repository.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

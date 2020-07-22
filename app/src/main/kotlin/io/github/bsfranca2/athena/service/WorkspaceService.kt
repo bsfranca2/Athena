@@ -5,7 +5,7 @@ import io.github.bsfranca2.athena.dto.workspace.RequestWorkspaceDto
 import io.github.bsfranca2.athena.dto.workspace.WorkspaceDto
 import io.github.bsfranca2.athena.entity.*
 import io.github.bsfranca2.athena.exception.UnauthorizedResourceException
-import io.github.bsfranca2.athena.exception.WorkspaceNotFoundException
+import io.github.bsfranca2.athena.exception.workspace.WorkspaceNotFoundException
 import io.github.bsfranca2.athena.repository.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

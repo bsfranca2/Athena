@@ -4,12 +4,8 @@ import io.github.bsfranca2.athena.adapter.UserAdapter
 import io.github.bsfranca2.athena.dto.auth.RequestAccountDto
 import io.github.bsfranca2.athena.dto.auth.LoginResponseDto
 import io.github.bsfranca2.athena.dto.user.UserDto
-import io.github.bsfranca2.athena.entity.User
-import io.github.bsfranca2.athena.repository.RoleRepository
 import io.github.bsfranca2.athena.repository.UserRepository
 import io.github.bsfranca2.athena.security.SecurityService
-import io.github.bsfranca2.athena.validation.EmailExistsException
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
