@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import io.github.bsfranca2.athena.adapter.ExceptionAdapter
 import io.github.bsfranca2.athena.adapter.ValidationExceptionAdapter
 import io.github.bsfranca2.athena.dto.response.ErrorResponseDto
+import io.github.bsfranca2.athena.exception.BadRequestException
 import io.github.bsfranca2.athena.exception.EntityNotFoundException
 import io.github.bsfranca2.athena.exception.UnauthorizedResourceException
 import org.springframework.core.Ordered
@@ -62,6 +63,11 @@ class RestExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(UnauthorizedResourceException::class)
     fun handleUnauthorizedResource(ex: UnauthorizedResourceException): ResponseEntity<Any> {
         return ResponseEntity(ExceptionAdapter.toResponse(ex), HttpStatus.FORBIDDEN)
+    }
+
+    @ExceptionHandler(BadRequestException::class)
+    fun handleBadRequest(ex: BadRequestException): ResponseEntity<Any> {
+        return ResponseEntity(ExceptionAdapter.toResponse(ex), HttpStatus.BAD_REQUEST)
     }
 
 }

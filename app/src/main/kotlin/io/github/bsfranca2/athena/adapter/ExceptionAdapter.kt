@@ -1,6 +1,7 @@
 package io.github.bsfranca2.athena.adapter
 
 import io.github.bsfranca2.athena.dto.response.ErrorResponseDto
+import io.github.bsfranca2.athena.exception.BadRequestException
 import io.github.bsfranca2.athena.exception.EntityNotFoundException
 import io.github.bsfranca2.athena.exception.UnauthorizedResourceException
 import org.springframework.http.HttpStatus
@@ -25,6 +26,13 @@ object ExceptionAdapter {
     }
 
     fun toResponse(ex: HttpMessageNotReadableException): ErrorResponseDto {
+        val status = HttpStatus.BAD_REQUEST
+        val timestamp = LocalDateTime.now()
+        val message = ex.message ?: ex.localizedMessage
+        return ErrorResponseDto(status.name, timestamp, message)
+    }
+
+    fun toResponse(ex: BadRequestException): ErrorResponseDto {
         val status = HttpStatus.BAD_REQUEST
         val timestamp = LocalDateTime.now()
         val message = ex.message ?: ex.localizedMessage
