@@ -5,6 +5,7 @@ import io.github.bsfranca2.athena.dto.validation.ValidationDto
 import io.github.bsfranca2.athena.enum.ValidationType
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import java.time.LocalDateTime
 
 object ValidationExceptionAdapter {
@@ -14,6 +15,17 @@ object ValidationExceptionAdapter {
         ex.bindingResult.fieldErrors.forEach {
             errors.add(ValidationDto(getError(it.codes), getPath(it.field)))
         }
+        val status = HttpStatus.BAD_REQUEST
+        val timestamp = LocalDateTime.now()
+        val message = "Validation error"
+        return ErrorResponseDto(status.name, timestamp, message, errors)
+    }
+
+    fun singleNotNullToResponse(field: String): ErrorResponseDto {
+        val errors = mutableListOf<ValidationDto>()
+        val validationType = ValidationType.NotNull
+        val path = getPath(field)
+        errors.add(ValidationDto(validationType.error, path))
         val status = HttpStatus.BAD_REQUEST
         val timestamp = LocalDateTime.now()
         val message = "Validation error"

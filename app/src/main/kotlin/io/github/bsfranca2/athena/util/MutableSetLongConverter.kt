@@ -3,7 +3,6 @@ package io.github.bsfranca2.athena.util
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
 
-
 @Converter
 class MutableSetLongConverter : AttributeConverter<MutableSet<Long>, String> {
     override fun convertToDatabaseColumn(longMutableSet: MutableSet<Long>): String {
