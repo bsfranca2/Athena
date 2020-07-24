@@ -28,7 +28,12 @@ object ProjectItemAdapter {
         return ScrumBoardDto(scrumBoard.id, scrumBoard.name, scrumBoard.project.id, scrumBoard.getType(), scrumBoard.sprintActiveIds, sprints, scrumBoard.createdBy.id, scrumBoard.createdAt)
     }
 
-    private fun toDto(item: ProductBacklogItem): ProductBacklogItemDto {
+    fun toDto(productBacklog: ProductBacklog): ProductBacklogDto {
+        val items = productBacklog.items.map { toDto(it) }
+        return ProductBacklogDto(productBacklog.id, productBacklog.name, productBacklog.project.id, productBacklog.getType(), items, productBacklog.createdBy.id, productBacklog.createdAt)
+    }
+
+    fun toDto(item: ProductBacklogItem): ProductBacklogItemDto {
         return ProductBacklogItemDto(item.id, item.productBacklog.id, IssueAdapter.toDto(item.issue))
     }
 

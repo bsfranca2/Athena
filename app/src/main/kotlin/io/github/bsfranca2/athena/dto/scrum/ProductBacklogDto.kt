@@ -9,7 +9,7 @@ class ProductBacklogDto(
         name: String,
         projectId: Long,
         type: ProjectItemType,
-        val items: MutableList<ProductBacklogItemDto>,
+        val items: List<ProductBacklogItemDto>,
         createdByUserId: Long,
         createdAt: LocalDateTime
 ): ProjectItemDto(id, name, projectId, type, createdByUserId, createdAt)

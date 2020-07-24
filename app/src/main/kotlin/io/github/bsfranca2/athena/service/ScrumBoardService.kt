@@ -1,54 +1,35 @@
 package io.github.bsfranca2.athena.service
 
 import io.github.bsfranca2.athena.adapter.ProjectItemAdapter
-import io.github.bsfranca2.athena.dto.scrum.RequestScrumBoardDto
-import io.github.bsfranca2.athena.dto.scrum.RequestSprintDto
-import io.github.bsfranca2.athena.dto.scrum.ScrumBoardDto
-import io.github.bsfranca2.athena.entity.Project
-import io.github.bsfranca2.athena.entity.ProjectMember
-import io.github.bsfranca2.athena.entity.User
+import io.github.bsfranca2.athena.adapter.SprintBacklogAdapter
+import io.github.bsfranca2.athena.dto.scrum.*
 import io.github.bsfranca2.athena.entity.scrum.ProductBacklogItem
 import io.github.bsfranca2.athena.entity.scrum.Sprint
 import io.github.bsfranca2.athena.entity.scrum.SprintBacklog
-import io.github.bsfranca2.athena.exception.*
-import io.github.bsfranca2.athena.exception.scrum.ScrumBoardNotFoundException
-import io.github.bsfranca2.athena.exception.scrum.SprintNotFoundException
-import io.github.bsfranca2.athena.exception.scrum.ScrumBoardHasNotSprintInProgressException
-import io.github.bsfranca2.athena.exception.scrum.SprintIsNotInProgressException
-import io.github.bsfranca2.athena.repository.ProjectMemberRepository
+import io.github.bsfranca2.athena.exception.scrum.*
+import io.github.bsfranca2.athena.repository.ProductBacklogItemRepository
 import io.github.bsfranca2.athena.repository.ScrumBoardRepository
 import io.github.bsfranca2.athena.repository.SprintBacklogRepository
 import io.github.bsfranca2.athena.repository.SprintRepository
+import io.github.bsfranca2.athena.util.ProjectItemUtil
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ScrumBoardService(
+        private val productItemUtil: ProjectItemUtil,
         private val accountService: AccountService,
         private val scrumBoardRepository: ScrumBoardRepository,
         private val sprintRepository: SprintRepository,
         private val sprintBacklogRepository: SprintBacklogRepository,
-        private val projectMemberRepository: ProjectMemberRepository
+        private val productBacklogItemRepository: ProductBacklogItemRepository
 ) {
-
-    private fun isProjectMember(project: Project, user: User): ProjectMember? {
-        return projectMemberRepository.findByProjectAndUser(project, user)
-    }
-
-    private fun checkIfIsProjectManager(project: Project, user: User): ProjectMember {
-        val member = isProjectMember(project, user)
-                ?: throw UnauthorizedResourceException()
-        if (!member.isProjectManager())
-            throw UnauthorizedResourceException()
-        return member
-    }
 
     fun getScumBoard(id: Long): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(id)
                 ?: throw ScrumBoardNotFoundException(id)
-        isProjectMember(scrumBoard.project, accountService.loggedUser)
-                ?: throw UnauthorizedResourceException()
+        productItemUtil.checkIfIsProjectMember(scrumBoard.project, accountService.loggedUser)
         return ProjectItemAdapter.toDto(scrumBoard)
     }
 
@@ -56,7 +37,7 @@ class ScrumBoardService(
     fun updateScrumBoard(id: Long, scrumBoardRequest: RequestScrumBoardDto): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(id)
                 ?: throw ScrumBoardNotFoundException(id)
-        checkIfIsProjectManager(scrumBoard.project, accountService.loggedUser)
+        productItemUtil.checkIfIsProjectManager(scrumBoard.project, accountService.loggedUser)
         scrumBoard.name = scrumBoardRequest.name
         val scrumBoardSaved = scrumBoardRepository.save(scrumBoard)
         return ProjectItemAdapter.toDto(scrumBoardSaved)
@@ -72,7 +53,7 @@ class ScrumBoardService(
         val loggedUser  = accountService.loggedUser
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId)
                 ?: throw ScrumBoardNotFoundException(scrumBoardId)
-        checkIfIsProjectManager(scrumBoard.project, loggedUser)
+        productItemUtil.checkIfIsProjectManager(scrumBoard.project, loggedUser)
         val (name, startDate, endDate, startedAt, endedAt) = requestDto
         val items = mutableListOf<ProductBacklogItem>()
         val sprint = Sprint(-1L, scrumBoard, name, startDate, endDate, startedAt, endedAt, loggedUser)
@@ -86,7 +67,7 @@ class ScrumBoardService(
     fun startSprint(scrumBoardId: Long, id: Long): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId)
                 ?: throw ScrumBoardNotFoundException(scrumBoardId)
-        checkIfIsProjectManager(scrumBoard.project, accountService.loggedUser)
+        productItemUtil.checkIfIsProjectManager(scrumBoard.project, accountService.loggedUser)
         val sprint = sprintRepository.findByIdOrNull(id)
                 ?: throw SprintNotFoundException(id)
         sprint.start()
@@ -98,7 +79,7 @@ class ScrumBoardService(
     fun endSprint(scrumBoardId: Long, id: Long): ScrumBoardDto {
         val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId)
                 ?: throw ScrumBoardNotFoundException(scrumBoardId)
-        checkIfIsProjectManager(scrumBoard.project, accountService.loggedUser)
+        productItemUtil.checkIfIsProjectManager(scrumBoard.project, accountService.loggedUser)
         if (scrumBoard.sprintActiveIds.isEmpty())
             throw ScrumBoardHasNotSprintInProgressException(scrumBoardId)
         if (!scrumBoard.sprintActiveIds.contains(id))
@@ -108,6 +89,28 @@ class ScrumBoardService(
         sprint.end()
         sprintRepository.save(sprint)
         return ProjectItemAdapter.toDto(scrumBoard)
+    }
+
+    fun addItemToSprintBacklog(scrumBoardId: Long, sprintId: Long, requestSprintBacklogItemDto: RequestSprintBacklogItemDto) {
+        val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId)
+                ?: throw ScrumBoardNotFoundException(scrumBoardId)
+        productItemUtil.checkIfIsProjectManager(scrumBoard.project, accountService.loggedUser)
+        val sprint = sprintRepository.findByIdOrNull(sprintId)
+                ?: throw SprintNotFoundException(sprintId)
+        val (productBacklogItemId) = requestSprintBacklogItemDto
+        val productBacklogItem = productBacklogItemRepository.findByIdOrNull(productBacklogItemId)
+                ?: throw ProductBacklogItemNotFoundException(productBacklogItemId)
+        sprint.backlog.addItem(productBacklogItem)
+        sprintBacklogRepository.save(sprint.backlog)
+    }
+
+    fun getSprintBacklog(scrumBoardId: Long, sprintId: Long): SprintBacklogDto {
+        val scrumBoard = scrumBoardRepository.findByIdOrNull(scrumBoardId)
+                ?: throw ScrumBoardNotFoundException(scrumBoardId)
+        productItemUtil.checkIfIsProjectMember(scrumBoard.project, accountService.loggedUser)
+        val sprint = sprintRepository.findByIdOrNull(sprintId)
+                ?: throw SprintNotFoundException(sprintId)
+        return SprintBacklogAdapter.toDto(sprint.backlog)
     }
 
 }

@@ -23,18 +23,23 @@ class IssueService(val userService: UserService, val issueRepository: IssueRepos
 
     @Transactional
     fun createIssue(issueDto: RequestIssueDto): IssueDto {
-        val user = userService.loggedUser
-        val (issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, parentId, assignedToUsersId) = issueDto
-        val canAssign = issueType != IssueType.DEFAULT && issueType != IssueType.EPIC
-        val assignedTo = if (canAssign) userRepository.findAllById(assignedToUsersId).toMutableList() else mutableListOf()
-        val timeEntries = mutableListOf<TimeEntry>()
-        var parent: Issue? = null
-        parentId?.let {
-            parent = issueRepository.findByIdOrNull(it) ?: throw IssueNotFoundException(it)
-        }
-        val issue = Issue(-1, issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, timeEntries, assignedTo, parent, user)
+        val issue = createIssueByDto(issueDto)
         val issueSaved = issueRepository.save(issue)
         return IssueAdapter.toDto(issueSaved)
+    }
+
+    @Transactional
+    fun createIssueByDto(requestIssueDto: RequestIssueDto): Issue {
+        val user = userService.loggedUser
+        val (issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, parentId) = requestIssueDto
+        var parent: Issue? = null
+        parentId?.let { parent = issueRepository.findByIdOrNull(it)?: throw IssueNotFoundException(it) }
+        val issue = Issue(-1, issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, parent, user)
+        if (issue.canAssign()) {
+            val users = userRepository.findAllById(requestIssueDto.assignedToUsersId)
+            issue.assignToMultiples(users.toList())
+        }
+        return issue
     }
 
     fun listIssues(): List<IssueDto> {

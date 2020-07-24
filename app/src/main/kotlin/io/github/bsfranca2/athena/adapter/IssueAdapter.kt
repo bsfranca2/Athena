@@ -9,7 +9,7 @@ import io.github.bsfranca2.athena.enum.IssueType
 object IssueAdapter {
 
     fun toDto(issue: Issue): IssueDto {
-        val (id, issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, _, _, _, createdBy) = issue
+        val (id, issueType, title, description, status, priority, startDate, endDate, estimatedTime, storyPoints, _, createdBy) = issue
         val parent = issue.parent?.id
         val children = issue.children.map { toDto(it) }.toMutableList()
         val assignedTo = issue.assignedTo.map { it.id }.toMutableList()

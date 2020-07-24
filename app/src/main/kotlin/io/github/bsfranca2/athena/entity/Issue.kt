@@ -23,13 +23,6 @@ data class Issue(
         var endDate: LocalDateTime?,
         var estimatedTime: Int,
         var storyPoints: Int,
-        @OneToMany(mappedBy = "issue", cascade = [CascadeType.ALL], orphanRemoval = true)
-        val timeEntries: MutableList<TimeEntry>,
-        @ManyToMany(cascade = [CascadeType.DETACH])
-        @JoinTable(name = "ath_issues_assigned_to",
-                joinColumns = [JoinColumn(name = "issue_id", referencedColumnName = "id")],
-                inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
-        val assignedTo: MutableList<User>,
         @ManyToOne(cascade = [CascadeType.DETACH])
         @JoinColumn(name = "parent_id")
         var parent: Issue?,
@@ -37,10 +30,29 @@ data class Issue(
         @JoinColumn(name = "created_by", nullable = false)
         val createdBy: User
 ) {
+    @ManyToMany(cascade = [CascadeType.DETACH])
+    @JoinTable(name = "ath_issues_assigned_to",
+            joinColumns = [JoinColumn(name = "issue_id", referencedColumnName = "id")],
+            inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
+    val assignedTo: MutableList<User> = mutableListOf()
+
+    @OneToMany(mappedBy = "issue", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val timeEntries: MutableList<TimeEntry> = mutableListOf()
+
     @OneToMany(mappedBy = "parent", cascade = [CascadeType.DETACH])
     val children: MutableList<Issue> = mutableListOf()
 
     fun canAssign(): Boolean {
         return this.type != IssueType.EPIC
+    }
+
+    fun assignTo(user: User): Issue {
+        assignedTo.add(user)
+        return this
+    }
+
+    fun assignToMultiples(users: List<User>): Issue {
+        assignedTo.addAll(users)
+        return this
     }
 }
