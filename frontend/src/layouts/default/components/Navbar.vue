@@ -24,7 +24,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-@Component
-export default class Navbar extends Vue {}
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'Navbar'
+})
 </script>

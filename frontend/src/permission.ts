@@ -1,6 +1,5 @@
 import router from './router'
-import { Route } from 'vue-router'
-import { UserModule } from '@/store/modules/user'
+import {useStore} from '@/store/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -19,22 +18,24 @@ router.afterEach(() => {
 })
 
 // eslint-disable-next-line
-router.beforeEach(async (to: Route, _: Route, next: any) => {
+router.beforeEach(async (to, _, next) => {
+  const store = useStore()
   if (to.path === '/') {
     next({ path: homePagePath })
   }
-  if (UserModule.token) {
-    // await UserModule.GetUserInfo()
-    if (to.path === loginPagePath) {
-      next({ path: homePagePath })
-    } else {
-      next()
-    }
-  } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      next()
-    } else {
-      next(`${loginPagePath}?redirect=${to.path}`)
-    }
-  }
+  next()
+  // if (store.state.user.token) {
+  //   // await UserModule.GetUserInfo()
+  //   if (to.path === loginPagePath) {
+  //     next({ path: homePagePath })
+  //   } else {
+  //     next()
+  //   }
+  // } else {
+  //   if (whiteList.indexOf(to.path) !== -1) {
+  //     next()
+  //   } else {
+  //     next(`${loginPagePath}?redirect=${to.path}`)
+  //   }
+  // }
 })

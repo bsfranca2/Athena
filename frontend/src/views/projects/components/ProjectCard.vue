@@ -17,19 +17,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { IUser } from '@/types'
+import { defineComponent } from 'vue'
 import { linkProgrammaticallyWithEvent } from '@/helpers/linkProgrammatically'
 
-@Component
-export default class ProjectCard extends Vue {
-  @Prop() private id!: string
-  @Prop() private name!: string
-  @Prop() private prefix!: string
-  @Prop() private members!: IUser[]
-
-  private onClick(event: MouseEvent) {
-    linkProgrammaticallyWithEvent('/', event)
+export default defineComponent({
+  name: 'ProjectCard',
+  props: {
+    id: String,
+    name: String,
+    prefix: String,
+    members: [String]
+  },
+  methods: {
+    onClick(event: MouseEvent) {
+      linkProgrammaticallyWithEvent('/', event)
+    }
   }
-}
+})
 </script>

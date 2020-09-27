@@ -5,14 +5,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { defineComponent } from "vue";
 
-@Component
-export default class ProjectsView extends Vue {
-
-}
+export default defineComponent({
+  name: 'ProjectsView'
+})
 </script>
-
-<style scoped>
-
-</style>

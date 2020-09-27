@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-@Component({
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'BlankLayout'
 })
-export default class BlankLayout extends Vue {}
 </script>

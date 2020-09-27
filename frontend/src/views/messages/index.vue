@@ -1,18 +1,11 @@
 <template>
-  <div>
-    Messages Page
-  </div>
+  <div>Messages Page</div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { defineComponent } from 'vue'
 
-@Component
-export default class ProjectsView extends Vue {
-
-}
+export default defineComponent({
+  name: 'MessagesView'
+})
 </script>
-
-<style scoped>
-
-</style>

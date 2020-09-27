@@ -11,18 +11,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { UserModule } from '@/store/modules/user'
-@Component({
-  name: 'LoginPage'
-})
-export default class ComponentName extends Vue {
-  private email = ''
-  private password = ''
+import { defineComponent } from 'vue'
+import { ActionTypes } from '@/store/modules/user'
 
-  private login() {
-    const { email, password } = this
-    UserModule.Login({ email, password })
+export default defineComponent({
+  name: 'LoginPage',
+  data() {
+    return {
+      email: 'email@exemplo.com',
+      password: '1234566789'
+    }
+  },
+  methods: {
+    async login() {
+      const { email, password } = this
+      await this.$store.dispatch(ActionTypes.LOGIN, { email, password })
+    }
   }
-}
+})
 </script>

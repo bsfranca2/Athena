@@ -16,28 +16,44 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { defineComponent } from 'vue'
 import ProjectCard from './components/ProjectCard.vue'
-import { IProject, IUser } from '@/types/index'
 
-@Component({
+export default defineComponent({
+  name: 'ProjectsView',
   components: {
     ProjectCard
+  },
+  data() {
+    return {
+      users: [
+        {
+          id: '1',
+          firstName: '',
+          lastName: '',
+          email: '',
+          avatar:
+            'https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk.jpg'
+        },
+        {
+          id: '2',
+          firstName: '',
+          lastName: '',
+          email: '',
+          avatar:
+            'https://userstock.io/data/wp-content/uploads/2020/05/imansyah-muhamad-putera-n4KewLKFOZw.jpg'
+        }
+      ],
+      projects: [
+        {
+          id: '1',
+          name: 'Portal Anestesia EAD + Apps',
+          prefix: 'PAEA',
+          members: []
+          // members: [...this.users]
+        }
+      ]
+    }
   }
 })
-export default class ProjectsView extends Vue {
-  private users: IUser[] = [
-    { id: '1', firstName: '', lastName: '', email: '', avatar: 'https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk.jpg' },
-    { id: '2', firstName: '', lastName: '', email: '', avatar: 'https://userstock.io/data/wp-content/uploads/2020/05/imansyah-muhamad-putera-n4KewLKFOZw.jpg' }
-  ]
-
-  private projects: IProject[] = [
-    {
-      id: '1',
-      name: 'Portal Anestesia EAD + Apps',
-      prefix: 'PAEA',
-      members: [...this.users]
-    }
-  ]
-}
 </script>

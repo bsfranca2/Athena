@@ -1,12 +1,17 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { UserState } from './modules/user'
+import { createLogger, createStore } from "vuex";
+import { UserModule, Store as UserStore, State as UserState } from './modules/user';
 
-Vue.use(Vuex)
-
-export interface RootState {
+export type State = {
   user: UserState
 }
 
-// Declare empty store first, dynamically register all modules later.
-export default new Vuex.Store<RootState>({})
+export type Store = UserStore<Pick<State, 'user'>> // & SeilaStore...
+
+export const store = createStore({
+  plugins: process.env.NODE_ENV === 'production' ? [] : [createLogger()],
+  modules: { UserModule }
+})
+
+export function useStore(): Store {
+  return store as unknown as Store
+}

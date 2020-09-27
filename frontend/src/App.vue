@@ -7,24 +7,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { defineComponent } from 'vue'
 import BlankLayout from '@/layouts/blank/index.vue'
 import DefaultLayout from '@/layouts/default/index.vue'
 
-@Component({
+export default defineComponent({
+  name: '',
   components: {
     BlankLayout,
     DefaultLayout
+  },
+  data() {
+    return {
+      layout: ''
+    }
+  },
+  watch: {
+    $route: function() {
+      const defaultLayout = 'DefaultLayout'
+      const { layout } = this.$route.meta
+      this.layout = layout ? layout : defaultLayout
+    }
   }
 })
-export default class App extends Vue {
-  private layout = ''
-
-  @Watch('$route', { immediate: true })
-  onRouteChanged() {
-    const defaultLayout = 'DefaultLayout'
-    const { layout } = this.$route.meta
-    this.layout = layout ? layout : defaultLayout
-  }
-}
 </script>

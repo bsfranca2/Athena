@@ -1,18 +1,21 @@
 import axios from 'axios'
-import { UserModule } from '@/store/modules/user'
+import { useStore } from '@/store/index'
 
 const thirtySeconds = 30000
 
 const service = axios.create({
-  baseURL: 'http://192.168.15.13:9292/api',//process.env.VUE_APP_BASE_URL,
+  baseURL: 'http://192.168.15.11:9292/api', //process.env.VUE_APP_BASE_URL,
   timeout: thirtySeconds,
   withCredentials: true
 })
 
 service.interceptors.request.use(
   config => {
-    if (UserModule.token) {
-      config.headers['Authorization'] = 'Bearer ' + UserModule.token
+    const store = useStore()
+    /// TODO
+    const userToken = (store.state as any)["UserModule"].token
+    if (userToken) {
+      config.headers['Authorization'] = 'Bearer ' + userToken
     }
     return config
   },
@@ -26,9 +29,10 @@ service.interceptors.response.use(
     return response
   },
   error => {
-    const message = error.response.data.message || error.message
-    alert('Erro')
+    // const message = error.response.data.message || error.message
+    // alert(message)
     //Toast.open({ type: 'is-danger', message })
+    console.error(error)
     throw error
   }
 )

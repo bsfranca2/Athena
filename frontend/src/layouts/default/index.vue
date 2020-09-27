@@ -8,13 +8,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { defineComponent } from 'vue'
 import Navbar from './components/Navbar.vue'
-@Component({
+
+export default defineComponent({
   name: 'DefaultLayout',
   components: {
     Navbar
   }
 })
-export default class DefaultLayout extends Vue {}
 </script>

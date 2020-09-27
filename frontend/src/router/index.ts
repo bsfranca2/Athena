@@ -1,9 +1,6 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
-Vue.use(VueRouter)
-
-const routes: Array<RouteConfig> = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/auth/login',
     name: 'Login',
@@ -46,10 +43,11 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "teams" */ '@/views/team/index.vue')
   }
-]
+];
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes
-})
+});
 
-export default router
+export default router;
