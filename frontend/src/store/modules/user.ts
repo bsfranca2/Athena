@@ -1,6 +1,6 @@
-import AuthenticationApi from '@/api/authentication'
-import { IAuthenticationCredentials } from '@/types'
-import { getToken, setToken, removeToken } from '@/helpers/cookies'
+import AuthenticationApi from '@services/authentication'
+import { IAuthenticationCredentials } from '@services/types'
+import { getToken, setToken, removeToken } from '@utils/cookies'
 import {
   ActionContext,
   ActionTree,
@@ -9,7 +9,7 @@ import {
   GetterTree,
   Module,
   MutationTree,
-  Store as VuexStore
+  Store as VuexStore,
 } from 'vuex'
 
 export type State = { token: string; email: string; roles: string[] }
@@ -19,7 +19,7 @@ const state: State = { token: getToken() || '', email: '', roles: [] }
 export enum MutationTypes {
   SET_TOKEN = 'SET_TOKEN',
   SET_EMAIL = 'SET_EMAIL',
-  SET_ROLES = 'SET_ROLES'
+  SET_ROLES = 'SET_ROLES',
 }
 
 export type Mutations<S = State> = {
@@ -37,7 +37,7 @@ const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.SET_ROLES](state: State, payload: string[]) {
     state.roles = payload
-  }
+  },
 }
 
 type ArgumentedActionContext = {
@@ -51,7 +51,7 @@ export enum ActionTypes {
   LOGIN = 'LOGIN',
   REGISTER_AND_LOGIN = 'REGISTER_AND_LOGIN',
   RESET_TOKEN = 'RESET_TOKEN',
-  LOGOUT = 'LOGOUT'
+  LOGOUT = 'LOGOUT',
 }
 
 export interface Actions {
@@ -101,7 +101,7 @@ export const actions: ActionTree<State, State> & Actions = {
     removeToken()
 
     window.location.reload()
-  }
+  },
 }
 
 export type Getters = {}
@@ -133,5 +133,5 @@ export const UserModule: Module<State, State> = {
   state,
   mutations,
   actions,
-  getters
+  getters,
 }

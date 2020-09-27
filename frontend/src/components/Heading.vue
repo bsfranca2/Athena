@@ -8,7 +8,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'Heading',
   props: {
-    text: String
-  }
+    text: String,
+  },
 })
 </script>
