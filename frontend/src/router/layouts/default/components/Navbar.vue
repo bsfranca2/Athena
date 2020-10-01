@@ -31,39 +31,6 @@ export default defineComponent({
   </header>
 </template>
 
-<style lang="scss" scoped>
-@import '@scss';
-
-.navbar {
-  padding: 0 32px;
-  border-bottom: solid 1px $primary;
-  &__content {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    margin: 8px 0;
-
-    &__brand {
-      width: 20%;
-    }
-
-    &__nav {
-      width: 50%;
-      * {
-        color: $primary;
-        text-decoration: none;
-        &:not(:last-child) {
-          margin-right: 1rem;
-        }
-      }
-    }
-
-    &__actions {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: flex-end;
-      width: 30%;
-    }
-  }
-}
+<style lang="postcss" module>
+/* empty */
 </style>

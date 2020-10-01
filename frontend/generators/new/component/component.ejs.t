@@ -26,8 +26,8 @@ if (blocks.indexOf('script') !== -1) {
 
 if (blocks.indexOf('style') !== -1) {
 %>
-<style lang="scss" module>
-@import '@scss';
+<style lang="postcss" module>
+/* stylelint-disable selector-max-type, selector-class-pattern */
 </style><%
 }
 %>

@@ -1,32 +1,46 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ActionTypes } from '@store/modules/user'
+import LoginForm from '@components/login-form.vue'
 
 export default defineComponent({
   name: 'LoginView',
-  data() {
-    return {
-      email: '',
-      password: '',
-    }
+  components: {
+    LoginForm,
   },
   methods: {
-    async login() {
-      const { email, password } = this
-      await this.$store.dispatch(ActionTypes.LOGIN, { email, password })
+    onSuccess() {
+      console.log('Login with success')
     },
   },
 })
 </script>
 
 <template>
-  <div>
-    <form @submit.prevent="login">
-      <label for="emailInput">Email</label>
-      <input v-model="email" id="emailInput" type="email" required />
-      <label for="passwordInput">Senha</label>
-      <input v-model="password" id="passwordInput" type="password" required />
-      <button type="submit">Entrar</button>
-    </form>
-  </div>
+  <main :class="$style.container">
+    <section :class="$style.section">
+      <h2>Sign In</h2>
+      <h6 class="mb-8">
+        Donec turpis mauris, vestibulum non dolor quis,<br />lobortis omare mi.
+      </h6>
+      <LoginForm @success="onSuccess" />
+      <p class="mt-2 text-center">Ainda não tem uma conta? Cadastra-se aqui</p>
+    </section>
+    <aside :class="$style.aside">
+      <BaseIllustration />
+    </aside>
+  </main>
 </template>
+
+<style module>
+.container {
+  @apply min-h-screen items-center p-8 grid grid-cols-2;
+}
+
+.section {
+  @apply max-w-md mx-auto;
+}
+
+.aside {
+  @apply max-w-lg mx-auto;
+}
+</style>

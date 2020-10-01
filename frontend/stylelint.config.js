@@ -44,7 +44,24 @@ module.exports = {
     'scss/operator-no-unspaced': true,
     'scss/selector-no-redundant-nesting-selector': true,
     // Allow SCSS and CSS module keywords beginning with `@`
-    'at-rule-no-unknown': null,
-    'scss/at-rule-no-unknown': true,
+    //'at-rule-no-unknown': null,
+    // 'scss/at-rule-no-unknown': true,
+    // ===
+    // POSTCSS
+    // ===
+    'at-rule-no-unknown': [
+      null,
+      {
+        ignoreAtRules: [
+          'tailwind',
+          'apply',
+          'variants',
+          'responsive',
+          'screen',
+        ],
+      },
+    ],
+    'declaration-block-trailing-semicolon': null,
+    'no-descending-specificity': null,
   },
 }

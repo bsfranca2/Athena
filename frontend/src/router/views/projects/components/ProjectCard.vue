@@ -36,35 +36,6 @@ export default defineComponent({
   </div>
 </template>
 
-<style lang="scss" scoped>
-@import '@scss';
-
-.projectCard {
-  min-width: 320px;
-  padding: 1rem;
-  border: solid 1px $primary;
-  border-radius: 4px;
-
-  &__key {
-    font-size: 13px;
-  }
-
-  &__users {
-    margin: 8px 0 16px;
-
-    img {
-      box-shadow: 0 0 0 1px rgba($color: $white, $alpha: 1);
-      &:not(:first-child) {
-        transform: translate3d(-4px, 0, -1px);
-      }
-    }
-  }
-
-  &__footer {
-    display: flex;
-    flex-direction: row nowrap;
-    justify-content: space-between;
-    font-size: 13px;
-  }
-}
+<style lang="postcss" module>
+/* empty */
 </style>
