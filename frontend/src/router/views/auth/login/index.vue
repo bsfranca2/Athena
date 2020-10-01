@@ -18,12 +18,10 @@ export default defineComponent({
 <template>
   <main :class="$style.container">
     <section :class="$style.section">
-      <h2>Sign In</h2>
-      <h6 class="mb-8">
-        Donec turpis mauris, vestibulum non dolor quis,<br />lobortis omare mi.
-      </h6>
+      <h2>{{ $t('signIn') }}</h2>
+      <h6 class="mb-8">{{ $t('signInDescription') }}</h6>
       <LoginForm @success="onSuccess" />
-      <p class="mt-2 text-center">Ainda não tem uma conta? Cadastra-se aqui</p>
+      <p class="mt-2 text-center">{{ $t('notHaveAnAccountYet') }}</p>
     </section>
     <aside :class="$style.aside">
       <BaseIllustration />

@@ -26,7 +26,8 @@
       "@models/*": ["src/models/*"],
       "@scss": ["src/assets/scss/index.scss"],
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*.ts",

@@ -22,9 +22,9 @@ export default defineComponent({
 
 <template>
   <form :class="$style.form" @submit.prevent="login">
-    <BaseInputText type="email" placeholder="Email" />
-    <BaseInputText type="password" placeholder="Senha" />
-    <BaseButton type="submit">Entrar</BaseButton>
+    <BaseInputText type="email" :placeholder="$t('email')" />
+    <BaseInputText type="password" :placeholder="$t('password')" />
+    <BaseButton type="submit">{{ $t('signInButton') }}</BaseButton>
   </form>
 </template>
 
