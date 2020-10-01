@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/auth/login',
     name: 'Login',
     component: () =>
-      import(/* webpackChunkName: "auth" */ '@views/auth/login/index.vue'),
+      import(/* webpackChunkName: "auth" */ '@views/login.vue'),
     meta: {
       layout: 'BlankLayout',
     },

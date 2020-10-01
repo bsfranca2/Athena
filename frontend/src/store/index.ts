@@ -1,19 +1,12 @@
 import { createLogger, createStore } from 'vuex'
-import {
-  UserModule,
-  Store as UserStore,
-  State as UserState,
-} from './modules/user'
 
-export type State = {
-  user: UserState
-}
+export type State = {}
 
-export type Store = UserStore<Pick<State, 'user'>> // & SeilaStore...
+export type Store = {}
 
 export const store = createStore({
   plugins: process.env.NODE_ENV === 'production' ? [] : [createLogger()],
-  modules: { UserModule },
+  modules: {},
 })
 
 export function useStore(): Store {

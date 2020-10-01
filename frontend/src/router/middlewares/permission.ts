@@ -1,5 +1,5 @@
 import { Router } from 'vue-router'
-import { useStore } from '@store/index'
+import { useAuth } from '@/src/composition/auth'
 
 const homePagePath = '/home'
 const registerPagePath = '/auth/register'
@@ -8,9 +8,8 @@ const whiteList = [loginPagePath, registerPagePath, '/auth-redirect']
 
 export function addPermissions(router: Router) {
   router.beforeEach(async (to, _, next) => {
-    const store = useStore()
-    /// TODO
-    const userToken = (store.state as any)['UserModule'].token
+    const auth = useAuth()
+    const userToken = auth.token.value
     if (to.path === '/') {
       next({ path: homePagePath })
     }

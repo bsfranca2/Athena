@@ -1,35 +1,41 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { ActionTypes } from '@store/modules/user'
+import { defineComponent, ref } from 'vue'
+import { useAuth } from '../composition/auth'
 
 export default defineComponent({
   name: 'LoginForm',
-  data() {
-    return {
-      email: '',
-      password: '',
+  setup(_, { emit }) {
+    const auth = useAuth()
+
+    const email = ref('')
+    const password = ref('')
+
+    async function login() {
+      const isLogged = await auth.login({
+        email: email.value,
+        password: password.value,
+      })
+      emit(isLogged ? 'success' : 'error')
     }
-  },
-  methods: {
-    async login() {
-      const { email, password } = this
-      await this.$store.dispatch(ActionTypes.LOGIN, { email, password })
-      this.$emit('success')
-    },
+
+    return { email, password, login }
   },
 })
 </script>
 
 <template>
-  <form :class="$style.form" @submit.prevent="login">
-    <BaseInputText type="email" :placeholder="$t('email')" />
-    <BaseInputText type="password" :placeholder="$t('password')" />
+  <form :class="$style.form" @submit.prevent="login(email, password)">
+    <BaseInputText v-model="email" type="email" :placeholder="$t('email')" />
+    <BaseInputText
+      v-model="password"
+      type="password"
+      :placeholder="$t('password')"
+    />
     <BaseButton type="submit">{{ $t('signInButton') }}</BaseButton>
   </form>
 </template>
 
 <style lang="postcss" module>
-/* stylelint-disable selector-max-type, selector-class-pattern */
 .form {
   @apply grid grid-cols-1 gap-3;
 }

@@ -1,16 +1,10 @@
 <script>
 export default {
-  // Disable automatic attribute inheritance, so that $attrs are
-  // passed to the <input>, even if it's not the root element.
-  // https://vuejs.org/v2/guide/components-props.html#Disabling-Attribute-Inheritance
-  inheritAttrs: false,
-  // Change the v-model event name to `update` to avoid changing
-  // the behavior of the native `input` event.
-  // https://vuejs.org/v2/guide/components-custom-events.html#Customizing-Component-v-model
-  model: {
-    event: 'update',
-  },
   props: {
+    modelValue: {
+      type: String,
+      default: '',
+    },
     type: {
       type: String,
       default: 'text',
@@ -35,8 +29,7 @@ export default {
   <input
     :type="type"
     :class="$style.input"
-    v-bind="$attrs"
-    @input="$emit('update', $event.target.value)"
+    @input="$emit('update:modelValue', $event.target.value)"
   />
 </template>
 

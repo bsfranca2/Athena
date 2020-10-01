@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useStore } from '@store/index'
+import { useAuth } from '../composition/auth'
 
 const thirtySeconds = 30000
 
@@ -11,9 +12,8 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
-    const store = useStore()
-    /// TODO
-    const userToken = (store.state as any)['UserModule'].token
+    const auth = useAuth()
+    const userToken = auth.token.value
     if (userToken) {
       config.headers['Authorization'] = 'Bearer ' + userToken
     }
@@ -33,7 +33,7 @@ service.interceptors.response.use(
     // alert(message)
     //Toast.open({ type: 'is-danger', message })
     console.error(error)
-    throw error
+    return error
   }
 )
 
