@@ -4,5 +4,9 @@
   "signInDescription": "Donec turpis mauris, vestibulum non dolor quis, lobortis omare mi.",
   "email": "Email",
   "password": "Password",
-  "notHaveAnAccountYet": "Not have an account yet? Sign up here."
+  "notHaveAnAccountYet": "Not have an account yet? Sign up here.",
+  "home": "Home",
+  "projects": "Projects",
+  "messages": "Messages",
+  "team": "Team"
 }

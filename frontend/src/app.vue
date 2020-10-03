@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BlankLayout from './router/layouts/blank/index.vue'
-import DefaultLayout from './router/layouts/default/index.vue'
+import BlankLayout from '@layouts/blank.vue'
+import DefaultLayout from '@layouts/default.vue'
 
 export default defineComponent({
   name: '',

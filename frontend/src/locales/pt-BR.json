@@ -4,5 +4,9 @@
   "signInDescription": "Donec turpis mauris, vestibulum non dolor quis, lobortis omare mi.",
   "email": "Email",
   "password": "Senha",
-  "notHaveAnAccountYet": "Ainda não tem uma conta? Cadastre-se aqui."
+  "notHaveAnAccountYet": "Ainda não tem uma conta? Cadastre-se aqui.",
+  "home": "Início",
+  "projects": "Projetos",
+  "messages": "Mensagens",
+  "team": "Equipe"
 }
