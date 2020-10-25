@@ -14,8 +14,11 @@ export function addPermissions(router: Router) {
       next({ path: homePagePath })
     }
     if (userToken) {
-      // await UserModule.GetUserInfo()
-      if (to.path === loginPagePath) {
+      await auth.getAccountInfo()
+      if (auth.workspaces.value.length === 0 && to.path !== '/workspaces') {
+        next({ path: '/workspaces' })
+        // next()
+      } else if (to.path === loginPagePath) {
         next({ path: homePagePath })
       } else {
         next()

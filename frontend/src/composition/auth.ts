@@ -1,15 +1,17 @@
 import { ref } from 'vue'
-import AuthenticationApi from '@services/authentication'
-import { IAuthenticationCredentials } from '@services/types'
-import { getToken, setToken, removeToken } from '@utils/cookies'
+import { AccountService } from '@services/account'
+import { AuthService } from '@services/authentication'
+import { IAuthenticationCredentials, WorkspaceDto } from '@services/types'
+import { getToken, removeToken, setToken } from '@utils/cookies'
 
 export function useAuth() {
   const token = ref(getToken() || '')
   const email = ref('')
   const roles = ref<string[]>([])
+  const workspaces = ref<WorkspaceDto[]>([])
 
   async function login(payload: IAuthenticationCredentials) {
-    const { data } = await AuthenticationApi.login({ ...payload })
+    const { data } = await AuthService.login({ ...payload })
     if (!data || data.success === false) {
       return false
     }
@@ -20,11 +22,19 @@ export function useAuth() {
   }
 
   async function register(payload: IAuthenticationCredentials) {
-    const { data } = await AuthenticationApi.register(payload)
+    const { data } = await AuthService.register(payload)
     if (!data || !data.email) {
       return false
     }
     return true
+  }
+
+  async function getAccountInfo() {
+    const { data } = await AccountService.info()
+    email.value = data.user.email
+    roles.value = data.user.roles
+    workspaces.value = data.workspaces
+    return data
   }
 
   function logout() {
@@ -39,8 +49,10 @@ export function useAuth() {
     token,
     email,
     roles,
+    workspaces,
     login,
     register,
+    getAccountInfo,
     logout,
   }
 }

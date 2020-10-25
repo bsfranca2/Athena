@@ -17,3 +17,26 @@ export interface IProject {
   prefix: string
   members: IUser[]
 }
+
+export interface UserDto {
+  id: number
+  email: string
+  active: boolean
+  roles: string[]
+}
+
+export interface WorkspaceDto {
+  id: number
+  name: string
+  slug: string
+}
+
+export interface AccountDto {
+  user: UserDto,
+  workspaces: WorkspaceDto[]
+}
+
+export interface RequestWorkspaceDto {
+  name: string
+  slug: string
+}

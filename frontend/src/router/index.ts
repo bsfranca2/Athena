@@ -22,6 +22,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/workspaces',
+    name: 'Workspaces',
+    component: () =>
+      import(/* webpackChunkName: "workspaces" */ '@views/workspaces.vue'),
+    meta: {
+      layout: 'BlankLayout',
+    }
+  },
+  {
     path: '/home',
     name: 'Home',
     component: () =>
@@ -31,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/projects',
     name: 'Projects',
     component: () =>
-      import(/* webpackChunkName: "projects" */ '@views/projects/index.vue'),
+      import(/* webpackChunkName: "projects" */ '@views/projects.vue'),
   },
   {
     path: '/messages',
